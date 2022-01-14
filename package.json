@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd api npm install npm run build && cd ../client && npm install && npm run build",
+    "start": "node api/bin/www",
+    "build": "cd client && npm install && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Dracohydrus/bank-tracking/issues"
   },
-  "homepage": "https://github.com/Dracohydrus/bank-tracking#readme"
+  "homepage": "https://github.com/Dracohydrus/bank-tracking#readme",
+  "engines": {
+    "node": "16.13.0"
+  }
 }
