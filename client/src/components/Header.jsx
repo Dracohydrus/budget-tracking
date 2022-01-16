@@ -6,7 +6,7 @@ const Header = () => {
 
     useEffect(() => {
         const fetchTemp = async() => {
-            const res = await axios.get('http://localhost:9000/api/transactions')
+            const res = await axios.get('/transaction')
             console.log(res)
         }
         fetchTemp()

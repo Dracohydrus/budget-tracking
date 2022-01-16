@@ -11,28 +11,26 @@ router.get('/:id', async (req, res) => {
 
 //GET ALL TRANSACTIONS
 router.get('/', async (req, res) => {
-    try {
-        const trans = await Transaction.find({})
-        console.log(trans)
-        res.status(200).json(trans)
-    } catch(err) {
-        res.status(404).json("No Transactions found")
-    } 
-    // Transaction.find({})
-    // .then((trans) => res.status(200).json(trans))
-    // .catch((err) => res.status(404).json(err))
+    Transaction.find({})
+    .then((trans) => res.status(200).json(trans))
+    .catch((err) => res.status(404).json(err))
 });
 
+//CREATE
 router.post('/', async (req, res) => {
-    const { email, value, currency, description='' } = res.body;
-    const newTransaction = new Transaction({
-        email,
-        value,
-        currency,
-        description
-    })
-    const trans = await newTransaction.save();
-    res.status(200).json(trans)
+    const { email, value, currency, description='' } = req.body;
+    try {
+        const newTransaction = new Transaction({
+            email,
+            value,
+            currency,
+            description
+        })
+        const trans = await newTransaction.save();
+        res.status(200).json(trans)
+    } catch(err) {
+        res.status(500).json(err)
+    }
 });
 
 module.exports = router;
