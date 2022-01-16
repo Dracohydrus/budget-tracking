@@ -11,24 +11,28 @@ router.get('/:id', async (req, res) => {
 
 //GET ALL TRANSACTIONS
 router.get('/', async (req, res) => {
-    const { email, categories } = req.query;
-    let transactions;
-    if(email) {
-        transactions = await Transaction.find({email})
-    } else if(categories) {
-        transactions = await Transaction.find({
-            categories: {
-                $in: [categories]
-            }
-        })
-    } else {
-        transactions = await Transaction.find();
-    }
-    if(transactions) {
-        res.status(200).json(transactions);
-    } else {
-        res.status(404).json("No transactions found.");
-    }
+    try {
+        const trans = await Transaction.find({})
+        console.log(trans)
+        res.status(200).json(trans)
+    } catch(err) {
+        res.status(404).json("No Transactions found")
+    } 
+    // Transaction.find({})
+    // .then((trans) => res.status(200).json(trans))
+    // .catch((err) => res.status(404).json(err))
+});
+
+router.post('/', async (req, res) => {
+    const { email, value, currency, description='' } = res.body;
+    const newTransaction = new Transaction({
+        email,
+        value,
+        currency,
+        description
+    })
+    const trans = await newTransaction.save();
+    res.status(200).json(trans)
 });
 
 module.exports = router;
