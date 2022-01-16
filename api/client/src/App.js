@@ -4,7 +4,7 @@ function App() {
   const [apiResponse, setApiReponse] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:9000/testAPI")
+    fetch("/testAPI")
     .then(res => res.text())
     .then(res => setApiReponse(res))
   }, [])
