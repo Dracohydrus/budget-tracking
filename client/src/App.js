@@ -11,7 +11,8 @@ function App() {
 
   return (
     <div>
-        <h1>{apiResponse}</h1>
+        <h1>Test React App</h1>
+        <p>{apiResponse}</p>
     </div>
   );
 }
