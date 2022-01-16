@@ -2,12 +2,13 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 
 const Header = () => {
-    const [temp, setTemp] = useState([]);
+    const [temp, setTemp] = useState(null);
 
     useEffect(() => {
         const fetchTemp = async() => {
-            const res = await axios.get('/transaction')
-            console.log(res)
+            axios.get('/transaction')
+            .then((res) => setTemp(JSON.stringify(res.data)))
+            .catch((err) => console.log(err))
         }
         fetchTemp()
     }, [])
