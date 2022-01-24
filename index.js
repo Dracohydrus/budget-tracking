@@ -1,14 +1,20 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const transactionRoute = require('./routes/transactions');
 
-dotenv.config();
+require('dotenv').config();
+var env = process.env.NODE_ENV || 'development';
+if(env === 'development') {
+    console.log('we are in development')
+} else {
+    console.log('we are in production')
+}
+
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URL) 
