@@ -3,6 +3,7 @@ import Home from './pages/home/Home';
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import Settings from "./pages/settings/Settings";
+import Hailey from "./pages/hailey/Hailey";
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login' element={user ? <Home /> : <Login /> } />
         <Route path='/register' element={user ? <Home /> : <Register />} />
         <Route path='/settings' element={user ? <Settings /> : <Register />} />
+        <Route path='/hailey' element={<Hailey />} />
       </Routes>
     </BrowserRouter>
   );

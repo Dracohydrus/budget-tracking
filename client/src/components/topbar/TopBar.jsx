@@ -1,9 +1,15 @@
 import './TopBar.css'
 import Social from '../social/Social';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const TopBar = () => {
+  const [isHailey, setIsHailey] = useState(false)
   const user = false;
+
+  const switchIsHailey = () => {
+    setIsHailey(!isHailey)
+  }
 
   return <div className='top'>
       <div className="topLeft">
@@ -11,7 +17,7 @@ const TopBar = () => {
       </div>
       <div className="topCenter">
           <ul className="topList">
-              <li className="topListItem"><Link className='link' to='/'>HOME</Link></li>
+              <li className="topListItem" onClick={switchIsHailey}><Link className='link' to={isHailey ? '/' : '/hailey'}>HOME</Link></li>
               <li className="topListItem"><Link className='link' to='/login'>{!user && 'LOGIN'}</Link></li>
           </ul>
       </div>
