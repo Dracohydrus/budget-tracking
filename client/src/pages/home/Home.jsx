@@ -6,22 +6,21 @@ import { axiosInstance } from '../../config';
 import './Home.css'
 
 const Home = () => {
-  const [temp, setTemp] = useState([])
+  const [transactions, setTransactions] = useState([])
   useEffect(() => {
-    const fetchTemp = async() => {
+    const getTransactions = async() => {
         axiosInstance.get('/transaction')
-        .then((res) => setTemp(JSON.stringify(res.data)))
+        .then((res) => setTransactions(res.data))
         .catch((err) => console.log(err))
     }
-    fetchTemp()
+    getTransactions()
   }, [])
 
   return (
     <>
       <Header />
       <div className="home">
-        <p>{temp}</p>
-        <Transactions />
+        <Transactions transactions={transactions} />
         <SideBar />
       </div>
     </>
