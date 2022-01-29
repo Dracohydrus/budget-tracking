@@ -17,6 +17,9 @@ const Hailey = () => {
                 setButtonColor('red')
                 break;
             case 2:
+                break;
+            default:
+                break;
                 
         }
         setClicks(clicks+1)

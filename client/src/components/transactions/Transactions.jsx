@@ -4,13 +4,9 @@ import './Transactions.css'
 const Transactions = ({transactions}) => {
   return (
     <div className="transactions">
-      {transactions.map((transaction) => 
-        <Transaction key={transaction._id} transaction={transaction} />
+      {transactions.map((t) => 
+        <Transaction key={t._id} transaction={t} />
       )}
-       {/* <Transaction />
-       <Transaction />
-       <Transaction />
-       <Transaction /> */}
     </div>
   );
 };

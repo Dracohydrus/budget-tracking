@@ -1,4 +1,27 @@
 .transaction {
-    width: 385px;
-    margin: 0px 25px 40px 25px;
+    margin: 15px;
+    margin-top: 25px;
+}
+
+.transactionInfo {
+    border: 1px solid rgb(172, 172, 172);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.title {
+    font-size: 16pt;
+}
+
+.transactionSubtotal {
+    font-weight: bold;
+}
+
+.transactionCategorires {
+    display: flex;
+}
+
+.transactionCategory {
+   flex-wrap: wrap;
+   margin-right: 5px;
 }
