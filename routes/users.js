@@ -16,19 +16,31 @@ router.get('/:id', async (req, res) => {
 
 //UPDATE
 router.put('/:id', async (req, res) => {
-    const { userId, password } = req.body;
+    const { userId, password, username, email } = req.body;
     const { id } = req.params;
     if(userId === id) {
+        let newUser = {}
         if(password) {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-            hashedPassword && (req.body.password = hashedPassword);
+            hashedPassword && (newUser.password = hashedPassword);
+        }
+
+        if(username) {
+            newUser.username = username;
+        }
+
+        if(email) {
+            newUser.email = email;
         }
 
         User.findByIdAndUpdate(id, {
-            $set: req.body,
+            $set: newUser,
         }, {new:true})
-        .then((updatedUser) => res.status(200).json(updatedUser))
+        .then((updatedUser) => {
+            const {password, ...rest} = updatedUser._doc;
+            return res.status(200).json(rest);
+        })
         .catch((err) => res.status(404).json("User not found."))
     } else {
         res.status(401).json("You can only updated your own account.");

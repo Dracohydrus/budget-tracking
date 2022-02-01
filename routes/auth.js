@@ -29,19 +29,18 @@ router.post('/login', async (req, res) => {
         const errorMessage = "Wrong credientials!";
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-        !user && res.status(400).json(errorMessage);
-
+    
+        if(!user) return res.status(400).json(errorMessage);
+    
         const { password: userPassword } = user;
         const validated = await bcrypt.compare(password, userPassword);
-
-        if(validated) {
-            const { password, ...parsedUser } = user._doc;
-            res.status(200).json(parsedUser);
-        } else {
-            res.status(400).json(errorMessage);
-        }
+    
+        if(!validated) return res.status(400).json(errorMessage);
+    
+        const { password:parsedPassword, ...parsedUser } = user._doc;
+        return res.status(200).json(parsedUser);
     } catch(err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 });
 
