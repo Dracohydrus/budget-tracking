@@ -7,7 +7,7 @@ import Hailey from "./pages/Hailey/Hailey";
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
-  const user = false;
+  const {user} = useContext(Context);
 
   return (
     <BrowserRouter>

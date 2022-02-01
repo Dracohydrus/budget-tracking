@@ -1,13 +1,12 @@
 import Transaction from '../transaction/Transaction';
 import './Transactions.css'
 
-const Transactions = () => {
+const Transactions = ({transactions}) => {
   return (
-    <div className="transcations">
-       <Transaction />
-       <Transaction />
-       <Transaction />
-       <Transaction />
+    <div className="transactions">
+      {transactions.map((t) => 
+        <Transaction key={t._id} transaction={t} />
+      )}
     </div>
   );
 };

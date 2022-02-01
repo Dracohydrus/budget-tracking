@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
 const userRoute = require('./routes/users');
 const transactionRoute = require('./routes/transactions');
+const categoryRoute = require('./routes/categories');
 
 require('dotenv').config();
 var env = process.env.NODE_ENV || 'development';
@@ -24,6 +25,7 @@ mongoose.connect(process.env.MONGO_URL)
 app.use('/api/auth', authRoute);
 app.use('/api/user', userRoute);
 app.use('/api/transaction', transactionRoute);
+app.use('/api/category', categoryRoute);
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 

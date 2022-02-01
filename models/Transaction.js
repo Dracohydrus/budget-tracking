@@ -20,6 +20,10 @@ const TransactionSchema = new mongoose.Schema({
     categories: {
         type: Array,
         required: false
+    },
+    transactionDate: {
+        type: Date,
+        required: true
     }
 }, {timestamps: true})
 
