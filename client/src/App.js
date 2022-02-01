@@ -3,6 +3,7 @@ import Home from './pages/home/Home';
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import Settings from "./pages/settings/Settings";
+import Hailey from "./pages/Hailey/Hailey";
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
