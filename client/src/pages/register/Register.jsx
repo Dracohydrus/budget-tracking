@@ -2,11 +2,13 @@ import "./Register.css";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
+import { isValidPassword } from "../../helpers/password";
 
 const Register = () => {
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const passwordConfirmationRef = useRef();
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     "Username or Email already exists!"
@@ -19,7 +21,7 @@ const Register = () => {
     if (
       !usernameRef.current.value ||
       !emailRef.current.value ||
-      !isValidPassword(passwordRef.current.value)
+      !passwordCheck()
     ) {
       return;
     }
@@ -40,14 +42,18 @@ const Register = () => {
       });
   };
 
-  const isValidPassword = (password) => {
-    if (!password) return false;
-    if (password.length < 7) {
-      setErrorMessage("Please input a password with more than 7 characters");
-      setError(true);
-      return false;
-    }
-    return true;
+  const passwordCheck = () => {
+    setError(false);
+    if (!passwordRef.current.value && !passwordConfirmationRef.current.value)
+      return true;
+    const { success, error = "" } = isValidPassword(
+      passwordRef.current.value,
+      passwordConfirmationRef.current.value
+    );
+    if (success) return true;
+    setErrorMessage("* " + error);
+    setError(true);
+    return false;
   };
 
   return (
@@ -74,6 +80,15 @@ const Register = () => {
           type="password"
           placeholder="Password"
           ref={passwordRef}
+          onChange={passwordCheck}
+        />
+        <label>Confirm Password</label>
+        <input
+          className="registerInput"
+          type="password"
+          placeholder="Password"
+          ref={passwordConfirmationRef}
+          onChange={passwordCheck}
         />
         <button type="submit" className="registerButton">
           Register
@@ -85,7 +100,7 @@ const Register = () => {
         </Link>
       </button>
       {error && (
-        <span style={{ color: "red", marginTop: "10px", fontSize: "14pt" }}>
+        <span style={{ color: "red", marginTop: "10px", fontSize: "14pt", textShadow:"0px 0px 3px lightgray", fontWeight: "bold" }}>
           {errorMessage}
         </span>
       )}
