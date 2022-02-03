@@ -1,23 +1,29 @@
-import { useContext, useRef } from "react";
+import "./Settings.css";
+import { useContext, useRef, useState } from "react";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
-import "./Settings.css";
+import { isValidPassword } from "../../helpers/password";
 
 const Settings = () => {
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const { user, dispatch } = useContext(Context);
   const usernameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const passwordConfirmationRef = useRef();
 
   const onUpdate = async (e) => {
     e.preventDefault();
     if (
       !usernameRef.current.value &&
       !emailRef.current.value &&
-      !passwordRef.current.value
+      !passwordRef.current.value &&
+      !passwordConfirmationRef.current.value
     ) {
       return;
     }
+
+    if (!passwordCheck()) return;
 
     axiosInstance
       .put("/user/" + user._id, {
@@ -33,8 +39,17 @@ const Settings = () => {
       .catch((err) => console.log(err));
   };
 
-  const onDelete = async (e) => {
-    alert("Not implemented yet");
+  const passwordCheck = () => {
+    setPasswordErrorMessage("");
+    if (!passwordRef.current.value && !passwordConfirmationRef.current.value)
+      return true;
+    const { success, error = "" } = isValidPassword(
+      passwordRef.current.value,
+      passwordConfirmationRef.current.value
+    );
+    if (success) return true;
+    setPasswordErrorMessage("* " + error);
+    return false;
   };
 
   return (
@@ -42,7 +57,10 @@ const Settings = () => {
       <div className="settingsWrapper">
         <div className="settingsTitle">
           <span className="settingsUpdateTitle">Update Your Account</span>
-          <span className="settingsDeleteTitle" onClick={onDelete}>
+          <span
+            className="settingsDeleteTitle"
+            onClick={() => alert("Not implemented yet")}
+          >
             Delete Account
           </span>
         </div>
@@ -58,7 +76,27 @@ const Settings = () => {
           <label>Email</label>
           <input type="text" placeholder={user.email} ref={emailRef} />
           <label>Password</label>
-          <input type="password" ref={passwordRef} />
+          <input
+            type="password"
+            ref={passwordRef}
+            onChange={passwordCheck}
+          />
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            ref={passwordConfirmationRef}
+            onChange={passwordCheck}
+          />
+          <label
+            style={{
+              fontSize: "1rem",
+              color: "red",
+              margin: "0",
+              height: "20px",
+            }}
+          >
+            {passwordErrorMessage}
+          </label>
           <button type="submit" className="settingsSubmit">
             Update
           </button>
