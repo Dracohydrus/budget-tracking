@@ -22,20 +22,22 @@ router.post('/register', async (req, res) => {
 
 //LOGIN
 router.post('/login', async (req, res) => {
-    const errorMessage = "Wrong credientials!";
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-
-    if(!user) return res.status(400).json(errorMessage);
-
-    const { password: userPassword } = user;
-    const validated = await bcrypt.compare(password, userPassword);
-
-    if (validated) {
-        const { password, ...parsedUser } = user._doc;
+    try {
+        const errorMessage = "Wrong credientials!";
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+    
+        if(!user) return res.status(400).json(errorMessage);
+    
+        const { password: userPassword } = user;
+        const validated = await bcrypt.compare(password, userPassword);
+    
+        if(!validated) return res.status(400).json(errorMessage);
+    
+        const { password:parsedPassword, ...parsedUser } = user._doc;
         return res.status(200).json(parsedUser);
-    } else {
-        return res.status(400).json(errorMessage);
+    } catch(err) {
+        return res.status(500).json(err);
     }
 });
 

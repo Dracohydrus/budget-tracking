@@ -14,3 +14,8 @@ export const LoginFailure = () => ({
 export const Logout = () => ({
     type: "LOGOUT"
 })
+
+export const userUpdate = (user) => ({
+    type: "USER_UPDATE",
+    payload: user
+})

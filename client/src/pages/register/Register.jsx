@@ -1,66 +1,109 @@
 import "./Register.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
+import { isValidPassword } from "../../helpers/password";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmationRef = useRef();
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    "Username or Email already exists!"
+  );
 
-  const onSubmit = async (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
     setError(false);
+
+    if (
+      !usernameRef.current.value ||
+      !emailRef.current.value ||
+      !passwordCheck()
+    ) {
+      return;
+    }
+
     axiosInstance
       .post("/auth/register", {
-        username,
-        email,
-        password,
+        username: usernameRef.current.value,
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
       })
       .then((res) => {
         window.location.replace("/login");
       })
-      .catch((err) => setError(true));
+      .catch((err) => {
+        setErrorMessage("Username or Email already exists!");
+        setError(true);
+        console.log(err);
+      });
+  };
+
+  const passwordCheck = () => {
+    setError(false);
+    if (!passwordRef.current.value && !passwordConfirmationRef.current.value)
+      return true;
+    const { success, error = "" } = isValidPassword(
+      passwordRef.current.value,
+      passwordConfirmationRef.current.value
+    );
+    if (success) return true;
+    setErrorMessage("* " + error);
+    setError(true);
+    return false;
   };
 
   return (
     <div className="register">
       <span className="registerTitle">Register</span>
-      <form className="registerForm" onSubmit={onSubmit}>
+      <form className="registerForm" onSubmit={onFormSubmit}>
         <label>Username</label>
         <input
           className="registerInput"
           type="text"
           placeholder="Username"
-          onChange={(e) => setUsername(e.target.value)}
+          ref={usernameRef}
         />
         <label>Email</label>
         <input
           className="registerInput"
           type="text"
           placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
+          ref={emailRef}
         />
         <label>Password</label>
         <input
           className="registerInput"
           type="password"
           placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
+          ref={passwordRef}
+          onChange={passwordCheck}
+        />
+        <label>Confirm Password</label>
+        <input
+          className="registerInput"
+          type="password"
+          placeholder="Password"
+          ref={passwordConfirmationRef}
+          onChange={passwordCheck}
         />
         <button type="submit" className="registerButton">
-          <Link to="/register" className="link">
-            Register
-          </Link>
+          Register
         </button>
-        <button className="registerLoginButton">
-          <Link to="/login" className="link">
-            Login
-          </Link>
-        </button>
-        {error && <span style={{color:'red', marginTop:'10px', fontSize: '14pt'}}>Username or Email already exists!</span> }
       </form>
+      <button className="registerLoginButton">
+        <Link to="/login" className="link">
+          Login
+        </Link>
+      </button>
+      {error && (
+        <span style={{ color: "red", marginTop: "10px", fontSize: "14pt", textShadow:"0px 0px 3px lightgray", fontWeight: "bold" }}>
+          {errorMessage}
+        </span>
+      )}
     </div>
   );
 };

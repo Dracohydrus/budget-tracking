@@ -4,6 +4,7 @@ api/node_modules/
 client/node_modules/# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 client/build
 .vscode/
+.env
 
 # dependencies
 /node_modules

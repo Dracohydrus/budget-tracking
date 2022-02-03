@@ -20,10 +20,6 @@ const SideBar = () => {
   return (
     <div className="sidebar">
         <div className="sidebarItem">
-          <span className="sidebarTitle">ABOUT ME</span>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto officia amet soluta asperiores neque ullam aliquid eius dolorum mollitia et alias atque laboriosam ut vel, voluptates, dolorem distinctio sint corrupti?</p>
-        </div>
-        <div className="sidebarItem">
           <div className="sidebarTitle">CATEGORIES</div>
           <div className="sidebarList">
             {categories.map((c) =>
