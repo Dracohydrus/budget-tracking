@@ -6,6 +6,8 @@
     display: flex;
     align-items: center;
     font-family: 'Roboto', sans-serif;
+    background-color: white;
+    z-index: 100;
 }
 
 .topLeft, .topRight {
@@ -24,6 +26,7 @@
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    margin-top: 5px;
 }
 
 .topList {

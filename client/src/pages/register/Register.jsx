@@ -66,6 +66,7 @@ const Register = () => {
           type="text"
           placeholder="Username"
           ref={usernameRef}
+          autoFocus
         />
         <label>Email</label>
         <input
@@ -100,7 +101,7 @@ const Register = () => {
         </Link>
       </button>
       {error && (
-        <span style={{ color: "red", marginTop: "10px", fontSize: "14pt", textShadow:"0px 0px 3px lightgray", fontWeight: "bold" }}>
+        <span style={{ color: "red", marginTop: "10px", fontSize: "14pt" }}>
           {errorMessage}
         </span>
       )}

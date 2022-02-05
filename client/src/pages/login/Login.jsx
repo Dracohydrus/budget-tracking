@@ -50,6 +50,7 @@ const Login = () => {
           type="text"
           placeholder="Email"
           ref={emailRef}
+          autoFocus
         />
         <label>Password</label>
         <input
