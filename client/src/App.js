@@ -1,12 +1,13 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useContext } from "react";
+import { Context } from "./context/Context";
 import TopBar from "./components/topbar/TopBar";
 import Home from './pages/home/Home';
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import Settings from "./pages/settings/Settings";
 import Hailey from "./pages/hailey/Hailey";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useContext } from "react";
-import { Context } from "./context/Context";
+import Category from "./pages/category/Category";
 
 function App() {
   const {user} = useContext(Context);
@@ -20,6 +21,7 @@ function App() {
         <Route path='/register' element={user ? <Home /> : <Register />} />
         <Route path='/settings' element={user ? <Settings /> : <Login />} />
         <Route path='/hailey' element={<Hailey />} />
+        <Route path='/category'element={user ? <Category /> : <Login />} />
       </Routes>
     </BrowserRouter>
   );

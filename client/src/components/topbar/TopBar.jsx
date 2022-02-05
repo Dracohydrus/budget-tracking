@@ -22,10 +22,9 @@ const TopBar = () => {
       <div className="topCenter">
         <ul className="topList">
           <li className="topListItem">
-            <Link className="link" to={isHome && !isHailey ? "/hailey" : "/"}>
-              HOME
-            </Link>
+            <Link className="link" to={isHome && !isHailey ? "/hailey" : "/"}>HOME</Link>
           </li>
+          <li className="topListItem"><Link className="link" to="/category">{user && "CATEGORIES"}</Link></li>
         </ul>
       </div>
       <div className="topRight">
@@ -38,8 +37,8 @@ const TopBar = () => {
                 alt=""
               />
             </Link>
-            <i class="searchIcon fas fa-search"></i>
-            <li className="topListItem" style={{listStyle: "none", marginLeft: "10px"}} onClick={handleLogout}>
+            <i className="searchIcon fas fa-search"></i>
+            <li className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={handleLogout}>
               {user && "LOGOUT"}
             </li>
           </>
