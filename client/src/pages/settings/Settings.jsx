@@ -3,6 +3,9 @@ import { useContext, useRef, useState } from "react";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
 import { isValidPassword } from "../../helpers/password";
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+toast.configure()
 
 const Settings = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
@@ -34,7 +37,7 @@ const Settings = () => {
       })
       .then((res) => {
         dispatch({ type: "USER_UPDATE", payload: res.data });
-        return alert("User updated");
+        toast.success("User updated", {position: toast.POSITION.BOTTOM_RIGHT});
       })
       .catch((err) => console.log(err));
   };
