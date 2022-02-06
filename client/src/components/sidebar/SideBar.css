@@ -29,26 +29,21 @@
     text-align: center;
 }
 
-.sidebarItem > p {
-    padding: 30px;
-}
-
 .sidebarList{
     width: 100%;
     list-style: none;
     margin-bottom: 30px;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
 }
 
 .sidebarListItem {
-    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 15px;
     cursor: pointer;
+    width: 33%;
 }
 
 .sidebarSocial {

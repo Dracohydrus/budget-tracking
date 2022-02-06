@@ -1,35 +1,44 @@
-import './Home.css'
-import Header from '../../components/header/Header';
-import SideBar from '../../components/sidebar/SideBar';
-import Transactions from '../../components/transactions/Transactions';
-import { axiosInstance } from '../../config';
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../../context/Context';
+import "./Home.css";
+import Header from "../../components/header/Header";
+import SideBar from "../../components/sidebar/SideBar";
+import Transactions from "../../components/transactions/Transactions";
+import { axiosInstance } from "../../config";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "../../context/Context";
 
 const Home = () => {
-  const [transactions, setTransactions] = useState([])
-  const {user} = useContext(Context)
+  const [transactions, setTransactions] = useState([]);
+  const { user } = useContext(Context);
 
   useEffect(() => {
-    const fetchTransactions = async() => {
-        axiosInstance.get('/transaction?email=' + user.email)
+    const fetchTransactions = async () => {
+      if (!user) {
+        setTransactions([])
+        return;
+      }
+      axiosInstance
+        .get("/transaction?email=" + user.email)
         .then((res) => setTransactions(res.data))
-        .catch((err) => console.log(err))
-    }
-    fetchTransactions()
-  }, [user?.email])
+        .catch((err) => console.log(err));
+    };
+    fetchTransactions();
+  }, [user]);
 
   return (
     <>
       <Header />
       <div className="home">
         <div className="content">
-          {transactions.length > 0 ? <Transactions transactions={transactions} /> : <p className='emptyMessage'>No Transactions Found</p>}
+          {transactions.length > 0 ? (
+            <Transactions transactions={transactions} />
+          ) : (
+            <p className="emptyMessage">No Transactions Found</p>
+          )}
         </div>
         <SideBar />
       </div>
     </>
-  )
+  );
 };
 
 export default Home;
