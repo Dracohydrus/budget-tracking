@@ -5,24 +5,28 @@ import Transactions from "../../components/transactions/Transactions";
 import { axiosInstance } from "../../config";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../../context/Context";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const [transactions, setTransactions] = useState([]);
   const { user } = useContext(Context);
+  const { search } = useLocation();
 
   useEffect(() => {
     const fetchTransactions = async () => {
       if (!user) {
-        setTransactions([])
+        setTransactions([]);
         return;
       }
+      let newSearch = search ? search + "&" : "?";
+      newSearch += "email=" + user.email;
       axiosInstance
-        .get("/transaction?email=" + user.email)
+        .get("/transaction" + newSearch)
         .then((res) => setTransactions(res.data))
         .catch((err) => console.log(err));
     };
     fetchTransactions();
-  }, [user]);
+  }, [search, user]);
 
   return (
     <>
