@@ -17,7 +17,7 @@ const Settings = () => {
     if(!user) return
     usernameRef.current.value = user.username
     emailRef.current.value = user.email
-  }, []);
+  }, [user]);
   
 
   const onUpdate = async (e) => {

@@ -17,7 +17,7 @@ const Category = () => {
 
   return (
     <div className="category">
-      {categories.forEach((cat) => <p>cat</p>)}
+      {categories.map((cat) => <p>{JSON.stringify(cat)}</p>)}
     </div>
   )
 };
