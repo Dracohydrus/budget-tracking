@@ -1,11 +1,9 @@
 import "./Settings.css";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
 import { isValidPassword } from "../../helpers/password";
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-toast.configure()
+import { toastInstance } from '../../helpers/toast';
 
 const Settings = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
@@ -15,11 +13,18 @@ const Settings = () => {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
 
+  useEffect(() => {
+    if(!user) return
+    usernameRef.current.value = user.username
+    emailRef.current.value = user.email
+  }, [user]);
+  
+
   const onUpdate = async (e) => {
     e.preventDefault();
     if (
-      !usernameRef.current.value &&
-      !emailRef.current.value &&
+      (!usernameRef.current.value || usernameRef.current.value === user?.username) &&
+      (!emailRef.current.value || emailRef.current.value === user?.email) &&
       !passwordRef.current.value &&
       !passwordConfirmationRef.current.value
     ) {
@@ -31,15 +36,18 @@ const Settings = () => {
     axiosInstance
       .put("/user/" + user._id, {
         userId: user._id,
-        username: usernameRef.current.value || null,
-        email: emailRef.current.value || null,
+        username: usernameRef.current.value !== user?.username ? usernameRef.current.value : null,
+        email: emailRef.current.value !== user?.email ? emailRef.current.value : null,
         password: passwordRef.current.value || null,
       })
       .then((res) => {
         dispatch({ type: "USER_UPDATE", payload: res.data });
-        toast.success("User updated", {position: toast.POSITION.BOTTOM_RIGHT});
+        toastInstance.success("User Updated")
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toastInstance.error("Unable to Update User")
+        console.error(err)
+      });
   };
 
   const passwordCheck = () => {
@@ -70,7 +78,7 @@ const Settings = () => {
         <form className="settingsForm" onSubmit={onUpdate}>
           <div className="settingsProfilePicture">
             <label htmlFor="fileInput">
-              <i class="settingsProfilePictureIcon far fa-user-circle"></i>
+              <i className="settingsProfilePictureIcon far fa-user-circle"></i>
             </label>
             <input type="file" id="fileInput" style={{ display: "none" }} />
           </div>
