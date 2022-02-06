@@ -13,19 +13,16 @@ router.get('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
     const { email, cat:catName } = req.query;
 
-    let transaction;
+    let transaction = {};
     if(email) {
-        transaction = Transaction.find({email})
-    } else if(catName) {
-        transaction = Transaction.find({
-            "categories.name": {
-                $in: [catName]
-            }
-        })
-    } else {
-        transaction = Transaction.find();
+        transaction.email = email;
     }
-    transaction
+    if(catName) {
+        transaction["categories.name"] = {
+            $in: [catName]
+        }
+    }
+    Transaction.find(transaction)
     .then((trans) => res.status(200).json(trans))
     .catch((err) => res.status(404).json(err))
 });

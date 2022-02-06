@@ -3,21 +3,21 @@ import Header from '../../components/header/Header';
 import SideBar from '../../components/sidebar/SideBar';
 import Transactions from '../../components/transactions/Transactions';
 import { axiosInstance } from '../../config';
-import { useLocation } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../../context/Context';
 
 const Home = () => {
   const [transactions, setTransactions] = useState([])
-  const { search } = useLocation();
+  const {user} = useContext(Context)
 
   useEffect(() => {
     const fetchTransactions = async() => {
-        axiosInstance.get('/transaction' + search)
+        axiosInstance.get('/transaction?email=' + user.email)
         .then((res) => setTransactions(res.data))
         .catch((err) => console.log(err))
     }
     fetchTransactions()
-  }, [search])
+  }, [user?.email])
 
   return (
     <>
