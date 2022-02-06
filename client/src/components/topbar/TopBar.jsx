@@ -1,13 +1,10 @@
 import "./TopBar.css";
 import Social from "../social/Social";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
 
 const TopBar = () => {
-  const path = useLocation().pathname;
-  const isHailey = path === "/hailey";
-  const isHome = path === "/";
   const { user, dispatch } = useContext(Context);
 
   const handleLogout = () => {
@@ -22,9 +19,10 @@ const TopBar = () => {
       <div className="topCenter">
         <ul className="topList">
           <li className="topListItem">
-            <Link className="link" to={isHome && !isHailey ? "/hailey" : "/"}>HOME</Link>
+            <Link className="link" to="/">HOME</Link>
           </li>
           <li className="topListItem"><Link className="link" to="/categories">{user && "CATEGORIES"}</Link></li>
+          {user?.username === "Hailstorm" && <li className="topListItem"><Link className="link" to="/hailey">HAILEY</Link></li>}
         </ul>
       </div>
       <div className="topRight">
