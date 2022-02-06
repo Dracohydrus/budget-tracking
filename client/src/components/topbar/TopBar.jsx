@@ -24,7 +24,7 @@ const TopBar = () => {
           <li className="topListItem">
             <Link className="link" to={isHome && !isHailey ? "/hailey" : "/"}>HOME</Link>
           </li>
-          <li className="topListItem"><Link className="link" to="/category">{user && "CATEGORIES"}</Link></li>
+          <li className="topListItem"><Link className="link" to="/categories">{user && "CATEGORIES"}</Link></li>
         </ul>
       </div>
       <div className="topRight">

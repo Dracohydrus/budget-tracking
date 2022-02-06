@@ -7,7 +7,7 @@ import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import Settings from "./pages/settings/Settings";
 import Hailey from "./pages/hailey/Hailey";
-import Category from "./pages/category/Category";
+import Categories from './pages/categories/Categories';
 
 function App() {
   const {user} = useContext(Context);
@@ -21,7 +21,7 @@ function App() {
         <Route path='/register' element={user ? <Home /> : <Register />} />
         <Route path='/settings' element={user ? <Settings /> : <Login />} />
         <Route path='/hailey' element={<Hailey />} />
-        <Route path='/category'element={user ? <Category /> : <Login />} />
+        <Route path='/categories'element={user ? <Categories /> : <Login />} />
       </Routes>
     </BrowserRouter>
   );
