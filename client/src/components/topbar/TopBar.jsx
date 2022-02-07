@@ -22,6 +22,7 @@ const TopBar = () => {
             <Link className="link" to="/">HOME</Link>
           </li>
           <li className="topListItem"><Link className="link" to="/categories">{user && "CATEGORIES"}</Link></li>
+          <li className="topListItem"><Link className="link" to="/transactions">TRANSACTIONS</Link></li>
           {user?.username === "Hailstorm" && <li className="topListItem"><Link className="link" to="/hailey">HAILEY</Link></li>}
         </ul>
       </div>
