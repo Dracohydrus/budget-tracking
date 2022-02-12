@@ -1,21 +1,29 @@
+export const ACTIONS = {
+    LOGIN_START: "LOGIN_START",
+    LOGIN_SUCCESS: "LOGIN_SUCCESS",
+    LOGIN_FAILURE: "LOGIN_FAILURE",
+    LOGOUT: "LOGOUT",
+    USER_UPDATE: "USER_UPDATE",
+}
+
 export const LoginStart = (userCredentials) => ({
-    type: "LOGIN_START"
+    type: ACTIONS.LOGIN_START
 });
 
 export const LoginSuccessful = (user) => ({
-    type: "LOGIN_SUCCESS",
+    type: ACTIONS.LOGIN_SUCCESS,
     payload: user
 });
 
 export const LoginFailure = () => ({
-    type: "LOGIN_FAILURE"
+    type: ACTIONS.LOGIN_FAILURE
 })
 
 export const Logout = () => ({
-    type: "LOGOUT"
+    type: ACTIONS.LOGOUT
 })
 
 export const userUpdate = (user) => ({
-    type: "USER_UPDATE",
+    type: ACTIONS.USER_UPDATE,
     payload: user
 })

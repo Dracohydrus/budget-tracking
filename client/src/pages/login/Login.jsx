@@ -3,6 +3,7 @@ import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
+import { LoginStart, LoginSuccessful, LoginFailure } from "../../context/Actions";
 
 const Login = () => {
   const emailRef = useRef();
@@ -14,18 +15,18 @@ const Login = () => {
     e.preventDefault();
     setError(false);
 
-    dispatch({ type: "LOGIN_START" });
+    dispatch(LoginStart());
     axiosInstance
       .post("/auth/login", {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       })
       .then((res) => {
-        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+        dispatch(LoginSuccessful(res.data))
       })
       .catch((err) => {
         setError(true);
-        dispatch({ type: "LOGIN_FAILURE" });
+        dispatch(LoginFailure())
       });
   };
 

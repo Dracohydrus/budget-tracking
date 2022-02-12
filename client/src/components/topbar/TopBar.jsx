@@ -3,13 +3,10 @@ import Social from "../social/Social";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
+import { Logout } from "../../context/Actions";
 
 const TopBar = () => {
   const { user, dispatch } = useContext(Context);
-
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-  };
 
   return (
     <div className="top">
@@ -37,7 +34,7 @@ const TopBar = () => {
               />
             </Link>
             <i className="searchIcon fas fa-search"></i>
-            <li className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={handleLogout}>
+            <li className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={() => dispatch(Logout())}>
               {user && "LOGOUT"}
             </li>
           </>
