@@ -23,7 +23,8 @@ function App() {
         <Route path='/settings' element={user ? <Settings /> : <Login />} />
         <Route path='/hailey' element={<Hailey />} />
         <Route path='/categories'element={user ? <Categories /> : <Login />} />
-        <Route path='/transactions' element={<Transactions />} />
+        <Route path='/transactions' element={user ? <Transactions /> : <Login />} />
+        <Route path='/*' element={<Home/>} />
       </Routes>
     </BrowserRouter>
   );
