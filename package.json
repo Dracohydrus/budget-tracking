@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "start:server": "nodemon index.js",
+    "start:server-dev": "nodemon index.js",
     "start:client": "cd client && npm start",
     "cy:open": "cypress open",
     "cy:run": "cypress run --headless --browser chrome",

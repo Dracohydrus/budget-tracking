@@ -22,4 +22,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm run start:server
+    - run: npm start
