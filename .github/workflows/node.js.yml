@@ -1,26 +1,22 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: Node.js CI
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: Transaction App Build
+on: [push]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
+  build_deploy:
+    runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Install Dependencies Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: npm start
+      - uses: actions/checkout@main
+        with:
+          ref: refs/heads/main
+      - name: install
+        run: |
+          npm install
+          ./client npm install
+          npm install --prefix ./client
+      - name: build
+        run: |
+          npm run build --prefix ./client
+      - name: start server
+        run: |
+           npm start &
+      - name: uat
+        uses: cypress-io/github-action@v1
