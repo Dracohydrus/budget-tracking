@@ -34,7 +34,7 @@ const TopBar = () => {
               />
             </Link>
             <i className="searchIcon fas fa-search"></i>
-            <li className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={() => dispatch(Logout())}>
+            <li data-cy="logout-button" className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={() => dispatch(Logout())}>
               {user && "LOGOUT"}
             </li>
           </>

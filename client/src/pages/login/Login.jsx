@@ -51,6 +51,7 @@ const Login = () => {
           type="text"
           placeholder="Email"
           ref={emailRef}
+          data-cy="email"
           autoFocus
         />
         <label>Password</label>
@@ -59,8 +60,9 @@ const Login = () => {
           type="password"
           placeholder="Password"
           ref={passwordRef}
+          data-cy="password"
         />
-        <button type="submit" className="loginButton" disabled={isFetching}>
+        <button type="submit" className="loginButton" disabled={isFetching} data-cy="login-button">
           Login
         </button>
       </form>

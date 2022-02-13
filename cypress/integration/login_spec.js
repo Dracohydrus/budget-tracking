@@ -13,37 +13,34 @@ describe('Login', () => {
     });
 
     it("Valid Login", () => {
-        cy.get('input[type="text"]').type("kris@prosoftxp.com")
-        cy.get('input[type="password"]').type("prosoft1031*")
-        cy.get('button[type="submit"].loginButton').click()
-        cy.get('.topRight')
-            .contains('LOGOUT')
+        cy.getBySel('email').type('kris@prosoftxp.com')
+        cy.getBySel('password').type("prosoft1031*")
+        cy.getBySel('login-button').click()
+        cy.contains('LOGOUT')
     });
 
     it("Valid Login with Enter on Email", () => {
-        cy.get('input[type="password"]').type("prosoft1031*")
-        cy.get('input[type="text"]').type("kris@prosoftxp.com").type("{Enter}")
-        cy.get('.topRight')
-            .contains('LOGOUT')
+        cy.getBySel('password').type("prosoft1031*")
+        cy.getBySel('email').type("kris@prosoftxp.com").type("{Enter}")
+        cy.contains('LOGOUT')
     })
 
     it("Valid Login with Enter on Password", () => {
-        cy.get('input[type="text"]').type("kris@prosoftxp.com")
-        cy.get('input[type="password"]').type("prosoft1031*").type("{Enter}")
-        cy.get('.topRight')
-            .contains('LOGOUT')
+        cy.getBySel('email').type("kris@prosoftxp.com")
+        cy.getBySel('password').type("prosoft1031*").type("{Enter}")
+        cy.contains('LOGOUT')
     })
 
     it("Invalid Login with existing email", () => {
-        cy.get('input[type="text"]').type("notarealemail@nothing.com")
-        cy.get('input[type="password"]').type("password123")
-        cy.get('button[type="submit"].loginButton').click()
+        cy.getBySel('email').type("notarealemail@nothing.com")
+        cy.getBySel('password').type("password123")
+        cy.getBySel('login-button').click()
         cy.contains('Invalid Credentials')
     })
 
     it("Invalid Login with non-existing email", () => {
-        cy.get('input[type="password"]').type("password123")
-        cy.get('button[type="submit"].loginButton').click()
+        cy.getBySel('password').type("password123")
+        cy.getBySel('login-button').click()
         cy.contains('Invalid Credentials')
     })
 });
@@ -51,13 +48,13 @@ describe('Login', () => {
 describe('Logout', () => {
     beforeEach(() => {
         cy.visit(SIGN_IN)
-        cy.get('input[type="text"]').type("kris@prosoftxp.com")
-        cy.get('input[type="password"]').type("prosoft1031*")
-        cy.get('button[type="submit"].loginButton').click()
+        cy.getBySel('email').type("kris@prosoftxp.com")
+        cy.getBySel('password').type("prosoft1031*")
+        cy.getBySel('login-button').click()
     });
 
     it("Logout", () => {
-        cy.get('li:contains(LOGOUT)').click()
+        cy.getBySel('logout-button').click()
         cy.contains('LOGIN')
         cy.contains('REGISTER')
     })
