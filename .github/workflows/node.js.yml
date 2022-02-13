@@ -28,5 +28,4 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm cd client && npm install && npm build
-    - name: Run Commands
     - run: npm run cy:test
