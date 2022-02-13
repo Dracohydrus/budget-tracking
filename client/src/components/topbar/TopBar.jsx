@@ -3,13 +3,10 @@ import Social from "../social/Social";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../context/Context";
+import { Logout } from "../../context/Actions";
 
 const TopBar = () => {
   const { user, dispatch } = useContext(Context);
-
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-  };
 
   return (
     <div className="top">
@@ -22,6 +19,7 @@ const TopBar = () => {
             <Link className="link" to="/">HOME</Link>
           </li>
           <li className="topListItem"><Link className="link" to="/categories">{user && "CATEGORIES"}</Link></li>
+          <li className="topListItem"><Link className="link" to="/transactions">TRANSACTIONS</Link></li>
           {user?.username === "Hailstorm" && <li className="topListItem"><Link className="link" to="/hailey">HAILEY</Link></li>}
         </ul>
       </div>
@@ -36,7 +34,7 @@ const TopBar = () => {
               />
             </Link>
             <i className="searchIcon fas fa-search"></i>
-            <li className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={handleLogout}>
+            <li data-cy="logout-button" className="topListItem" style={{ listStyle: "none", marginLeft: "10px" }} onClick={() => dispatch(Logout())}>
               {user && "LOGOUT"}
             </li>
           </>

@@ -8,6 +8,7 @@ import Login from "./pages/login/Login";
 import Settings from "./pages/settings/Settings";
 import Hailey from "./pages/hailey/Hailey";
 import Categories from './pages/categories/Categories';
+import Transactions from './pages/transactions/Transactions';
 
 function App() {
   const {user} = useContext(Context);
@@ -22,6 +23,8 @@ function App() {
         <Route path='/settings' element={user ? <Settings /> : <Login />} />
         <Route path='/hailey' element={<Hailey />} />
         <Route path='/categories'element={user ? <Categories /> : <Login />} />
+        <Route path='/transactions' element={user ? <Transactions /> : <Login />} />
+        <Route path='/*' element={<Home/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,6 +4,7 @@ import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
 import { isValidPassword } from "../../helpers/password";
 import { toastInstance } from '../../helpers/toast';
+import { userUpdate } from "../../context/Actions";
 
 const Settings = () => {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
@@ -41,7 +42,7 @@ const Settings = () => {
         password: passwordRef.current.value || null,
       })
       .then((res) => {
-        dispatch({ type: "USER_UPDATE", payload: res.data });
+        dispatch(userUpdate(res.data))
         toastInstance.success("User Updated")
       })
       .catch((err) => {

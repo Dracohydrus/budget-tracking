@@ -1,30 +1,32 @@
+import { ACTIONS } from "./Actions"
+
 const Reducer = (state, action) => {
   switch (action.type) {
-    case "LOGIN_START":
+    case ACTIONS.LOGIN_START:
       return {
         user: null,
         isFetching: true,
         error: false
       }
-    case "LOGIN_SUCCESS":
+    case ACTIONS.LOGIN_SUCCESS:
       return {
         user: action.payload,
         isFetching: false,
         error: false
       }
-    case "LOGIN_FAILURE":
+    case ACTIONS.LOGIN_FAILURE:
       return {
         user: null,
         isFetching: false,
         error: true
       }
-    case "LOGOUT":
+    case ACTIONS.LOGOUT:
       return {
         user: null,
         isFetching: false,
         error: false
       }
-    case "USER_UPDATE":
+    case ACTIONS.USER_UPDATE:
       return {
         user: action.payload,
         isFetching: false,
