@@ -10,7 +10,6 @@ jobs:
       - name: install
         run: |
           npm install
-          ./client npm install
           npm install --prefix ./client
       - name: build
         run: |
