@@ -15,10 +15,10 @@ jobs:
         run: |
           npm run build --prefix ./client
       - name: start server
-        env:
-          MONGO_DB: ${{ secrets.MONGO_DB }}
         run: |
            npm start &
            npm start --prefix ./client &
+        env:
+          MONGO_URL: ${{ secrets.MONGO_DB }}
       - name: uat
         uses: cypress-io/github-action@v2.9.7
