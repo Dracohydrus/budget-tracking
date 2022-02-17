@@ -9,8 +9,8 @@ jobs:
           ref: refs/heads/main
       - name: install
         run: |
-          npm install
-          npm install --prefix ./client
+          npm install --production
+          npm install --production --prefix ./client
       - name: build
         run: |
           npm run build --prefix ./client
