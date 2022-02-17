@@ -2,6 +2,8 @@ name: Transaction App Build
 on: [push]
 jobs:
   build_deploy:
+    env: 
+      MONGO_DB: ${{ secrets.MONGO_DB }}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@main
