@@ -17,5 +17,6 @@ jobs:
       - name: start server
         run: |
            npm start &
+           npm start --prefix ./client &
       - name: uat
         uses: cypress-io/github-action@v1
