@@ -18,8 +18,8 @@ const UploadComponent = ({ transaction = {}, onDelete, onUpdate }) => {
     currencyRef.current.value = currency
     valueRef.current.value = value
     transactionDateRef.current.value = transactionDate
-    categoriesRef.current.value = (categories.length >= 1 && categories[0]) || '';
-  }, [transaction])
+    categoriesRef.current.value = categories[0]?.name || '';
+  }, [description, currency, value, transactionDate, categories])
 
   useEffect(() => {
     axiosInstance.get('/category')
@@ -28,14 +28,13 @@ const UploadComponent = ({ transaction = {}, onDelete, onUpdate }) => {
   }, [])
 
   const onChange = () => {
-    console.log(descriptionRef.current.value)
     onUpdate(key, {
       ...transaction,
       description: descriptionRef.current.value,
       currency: currencyRef.current.value,
       value: valueRef.current.value,
       transactionDate: transactionDateRef.current.value,
-      categories: [categoriesRef.current.value]
+      categories: [{ name: categoriesRef.current.value }]
     })
   }
 

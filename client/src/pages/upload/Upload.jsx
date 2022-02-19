@@ -8,17 +8,17 @@ import UploadComponent from "../../components/upload/UploadComponent"
 
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);
-  const {user} = useContext(Context)
-  
+  const { user } = useContext(Context)
+
   useEffect(() => {
     let storage = JSON.parse(localStorage.getItem('uploadTransactions'))
-    if(!storage) return
+    if (!storage) return
     setTransactions(storage)
   }, [])
 
   useEffect(() => {
     let storage = JSON.stringify(transactions)
-    if(!storage) return
+    if (!storage) return
     localStorage.setItem('uploadTransactions', storage)
   }, [transactions])
 
@@ -30,31 +30,35 @@ const Upload = () => {
     return highest;
   }
 
-  const deleteTransaction = (key) => {
+  const deleteUploadTransaction = (key) => {
     setTransactions(transactions.filter((transaction) => transaction.key !== key))
   }
 
-  const updateTransaction = (key, newTransaction) => {
+  const updateUploadTransaction = (key, newTransaction) => {
     setTransactions(transactions.map((transaction) => {
-      if(transaction.key === key) return {...transaction, ...newTransaction}
+      if (transaction.key === key) return { ...transaction, ...newTransaction }
       return transaction
     }))
   }
 
-  const createTransaction = () => {
-    let newTransaction = { 
+  const createUploadTransaction = () => {
+    let newTransaction = {
       key: getLargest() + 1,
       description: '',
       currency: user.currency || 'CAD',
       value: 0,
       categories: [],
-      transactionDate: dateFormat(new Date(), 'yyyy-mm-dd') 
+      transactionDate: dateFormat(new Date(), 'yyyy-mm-dd')
     }
     setTransactions([...transactions, newTransaction])
-  } 
+  }
 
   const saveTransactions = async () => {
-    axiosInstance.post('/transactions', { data: transactions })
+    let newTransactions = transactions.map((trans) => {
+      const { key, transactionDate, ...rest } = trans
+      return { email: user.email, transactionDate: new Date(transactionDate), ...rest };
+    })
+    axiosInstance.post('/transaction', { data: newTransactions })
       .then((transactions) => {
         setTransactions([])
         toastInstance.success("Transactions Created")
@@ -65,7 +69,7 @@ const Upload = () => {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px' }}>
-        {transactions.map((transaction) => <UploadComponent key={transaction.key} transaction={transaction} onDelete={deleteTransaction} onUpdate={updateTransaction} />)}
+        {transactions.map((transaction) => <UploadComponent key={transaction.key} transaction={transaction} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '1rem', gap: '5px' }}>
         <button className='uploadButton'>
@@ -74,7 +78,7 @@ const Upload = () => {
         <button className='uploadButton' onClick={() => saveTransactions()}>
           <i className="fa-solid fa-floppy-disk"></i>
         </button>
-        <button className='uploadButton' onClick={createTransaction} >
+        <button className='uploadButton' onClick={createUploadTransaction} >
           <i className="fa-solid fa-plus"></i>
         </button>
       </div>

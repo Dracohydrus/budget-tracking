@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
     if (data.length === 0) return res.status(500).json("No data passed in for transactions")
     Transaction.insertMany(data)
         .then((trans) => res.status(200).json(trans))
-        .catch((err) => res.status(500).json(err))
+        .catch((err) => res.status(500).json(data))
 
     // const { email, value, currency, description = '', transactionDate, categories } = req.body;
     // const newTransaction = new Transaction({
