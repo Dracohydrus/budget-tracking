@@ -5,42 +5,48 @@ const Transaction = require('../models/Transaction');
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
     Transaction.findById(id)
-    .then((transaction) => res.status(200).json(transaction))
-    .catch((err) => res.status(404).json("Transaction not found"))
+        .then((transaction) => res.status(200).json(transaction))
+        .catch((err) => res.status(404).json("Transaction not found"))
 });
 
 //GET ALL TRANSACTIONS
 router.get('/', async (req, res) => {
-    const { email, cat:catName } = req.query;
+    const { email, cat: catName } = req.query;
 
     let transaction = {};
-    if(email) {
+    if (email) {
         transaction.email = email;
     }
-    if(catName) {
+    if (catName) {
         transaction["categories.name"] = {
             $in: [catName]
         }
     }
     Transaction.find(transaction)
-    .then((trans) => res.status(200).json(trans))
-    .catch((err) => res.status(404).json(err))
+        .then((trans) => res.status(200).json(trans))
+        .catch((err) => res.status(404).json(err))
 });
 
 //CREATE
 router.post('/', async (req, res) => {
-    const { email, value, currency, description='', transactionDate, categories } = req.body;
-    const newTransaction = new Transaction({
-        email,
-        value,
-        currency,
-        description,
-        transactionDate,
-        categories
-    })
-    newTransaction.save()
-    .then((trans) => res.status(200).json(trans))
-    .catch((err) => res.status(500).json(err))
+    const { data = [] } = req.body;
+    if (data.length === 0) return res.status(500).json("No data passed in for transactions")
+    Transaction.insertMany(data)
+        .then((trans) => res.status(200).json(trans))
+        .catch((err) => res.status(500).json(err))
+
+    // const { email, value, currency, description = '', transactionDate, categories } = req.body;
+    // const newTransaction = new Transaction({
+    //     email,
+    //     value,
+    //     currency,
+    //     description,
+    //     transactionDate,
+    //     categories
+    // })
+    // newTransaction.save()
+    //     .then((trans) => res.status(200).json(trans))
+    //     .catch((err) => res.status(500).json(err))
 });
 
 module.exports = router;
