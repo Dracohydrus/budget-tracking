@@ -34,19 +34,6 @@ router.post('/', async (req, res) => {
     Transaction.insertMany(data)
         .then((trans) => res.status(200).json(trans))
         .catch((err) => res.status(500).json(data))
-
-    // const { email, value, currency, description = '', transactionDate, categories } = req.body;
-    // const newTransaction = new Transaction({
-    //     email,
-    //     value,
-    //     currency,
-    //     description,
-    //     transactionDate,
-    //     categories
-    // })
-    // newTransaction.save()
-    //     .then((trans) => res.status(200).json(trans))
-    //     .catch((err) => res.status(500).json(err))
 });
 
 module.exports = router;

@@ -66,15 +66,37 @@ const Upload = () => {
       .catch((err) => toastInstance.error(err))
   }
 
+  const uploadFile = (e) => {
+    console.log(e.target.files)
+    var fileToRead = e.target.files[0];
+    var fileReader = new FileReader();
+    fileReader.onload = (fileLoadedEvent) => {
+      // console.log(fileLoadedEvent.target.result)
+      processFile(fileLoadedEvent.target.result)
+    }
+    fileReader.readAsText(fileToRead, "UTF-8")
+  }
+
+  const processFile = (string) => {
+    let array = string.split(/\n|\r\n|\r/gi)
+    for(var i in array) {
+      let content = array[i].split(',')
+      const [date, description, credit, debit, balance] = content;
+      if(Number(credit) > 0) console.log(`${date} - ${description} - ${credit}`)
+    } 
+    // console.log(array)
+  }
+
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px' }}>
         {transactions.map((transaction) => <UploadComponent key={transaction.key} transaction={transaction} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '1rem', gap: '5px' }}>
-        <button className='uploadButton'>
+        <label htmlFor='transactionFileUpload' className='uploadButton'>
           <i className="fa-solid fa-upload"></i>
-        </button>
+        </label>
+        <input id='transactionFileUpload' type="file" style={{display: 'none'}} onChange={uploadFile} />
         <button className='uploadButton' onClick={() => saveTransactions()}>
           <i className="fa-solid fa-floppy-disk"></i>
         </button>
