@@ -67,11 +67,9 @@ const Upload = () => {
   }
 
   const uploadFile = (e) => {
-    console.log(e.target.files)
     var fileToRead = e.target.files[0];
     var fileReader = new FileReader();
     fileReader.onload = (fileLoadedEvent) => {
-      // console.log(fileLoadedEvent.target.result)
       processFile(fileLoadedEvent.target.result)
     }
     fileReader.readAsText(fileToRead, "UTF-8")
@@ -79,12 +77,23 @@ const Upload = () => {
 
   const processFile = (string) => {
     let array = string.split(/\n|\r\n|\r/gi)
-    for(var i in array) {
+    let resultTransactions = []
+    let largest = getLargest() + 1;
+    for (var i in array) {
       let content = array[i].split(',')
       const [date, description, credit, debit, balance] = content;
-      if(Number(credit) > 0) console.log(`${date} - ${description} - ${credit}`)
-    } 
-    // console.log(array)
+      if (Number(credit) > 0) {
+        resultTransactions.push({
+          key: largest + i,
+          description: description,
+          currency: user.currency || 'CAD',
+          value: parseFloat(credit)?.toFixed(2) || 0,
+          categories: [],
+          transactionDate: dateFormat(date, 'yyyy-mm-dd')
+        })
+      }
+    }
+    setTransactions([...transactions, ...resultTransactions])
   }
 
   return (
@@ -96,11 +105,11 @@ const Upload = () => {
         <label htmlFor='transactionFileUpload' className='uploadButton'>
           <i className="fa-solid fa-upload"></i>
         </label>
-        <input id='transactionFileUpload' type="file" style={{display: 'none'}} onChange={uploadFile} />
-        <button className='uploadButton' onClick={() => saveTransactions()}>
+        <input id='transactionFileUpload' type="file" style={{ display: 'none' }} onChange={uploadFile} />
+        <button id='saveButton' className='uploadButton' onClick={() => saveTransactions()}>
           <i className="fa-solid fa-floppy-disk"></i>
         </button>
-        <button className='uploadButton' onClick={createUploadTransaction} >
+        <button id='addButton' className='uploadButton' onClick={createUploadTransaction} >
           <i className="fa-solid fa-plus"></i>
         </button>
       </div>

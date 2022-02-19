@@ -42,7 +42,7 @@ const UploadComponent = ({ transaction = {}, onDelete, onUpdate }) => {
     <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
       <input type="text" placeholder="Description" ref={descriptionRef} onChange={onChange} />
       <input type="text" placeholder="Currency" ref={currencyRef} onChange={onChange} />
-      <input type="number" placeholder="Value" ref={valueRef} onChange={onChange} />
+      <input type="number" step="0.1" placeholder="Value" ref={valueRef} onChange={onChange} onBlur={(e) => valueRef.current.value = parseFloat(valueRef.current.value)?.toFixed(2)} />
       <input type="date" placeholder="Date" ref={transactionDateRef} onChange={onChange} />
       <input list="categoryList" type="text" ref={categoriesRef} onChange={onChange} />
       <datalist id="categoryList">
