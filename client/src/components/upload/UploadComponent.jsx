@@ -1,11 +1,8 @@
 import './UploadComponent.css'
-import { useEffect, useRef, useState } from "react"
-import { axiosInstance } from '../../config'
+import { useEffect, useRef } from "react"
 
-const UploadComponent = ({ transaction = {}, onDelete, onUpdate }) => {
+const UploadComponent = ({ transaction = {}, onDelete, onUpdate, categoryList }) => {
   const { key, description, currency, value = 0.0, categories, transactionDate } = transaction
-
-  const [categoryList, setCategoryList] = useState([]);
 
   const descriptionRef = useRef();
   const currencyRef = useRef();
@@ -20,12 +17,6 @@ const UploadComponent = ({ transaction = {}, onDelete, onUpdate }) => {
     transactionDateRef.current.value = transactionDate
     categoriesRef.current.value = categories[0]?.name || '';
   }, [description, currency, value, transactionDate, categories])
-
-  useEffect(() => {
-    axiosInstance.get('/category')
-      .then((categories) => setCategoryList(categories.data))
-      .catch((err) => console.log(err))
-  }, [])
 
   const onChange = () => {
     onUpdate(key, {

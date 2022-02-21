@@ -8,9 +8,13 @@ import UploadComponent from "../../components/upload/UploadComponent"
 
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
   const { user } = useContext(Context)
 
   useEffect(() => {
+    axiosInstance.get('/category')
+      .then((categories) => setCategoryList(categories.data))
+      .catch((err) => console.log(err))
     let storage = JSON.parse(localStorage.getItem('uploadTransactions'))
     if (!storage) return
     setTransactions(storage)
@@ -99,7 +103,8 @@ const Upload = () => {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px' }}>
-        {transactions.map((transaction) => <UploadComponent key={transaction.key} transaction={transaction} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}
+        {transactions.map((transaction) =>
+          <UploadComponent key={transaction.key} transaction={transaction} categoryList={categoryList} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '1rem', gap: '5px' }}>
         <label htmlFor='transactionFileUpload' className='uploadButton'>
