@@ -33,11 +33,8 @@ const Home = () => {
       <Header />
       <div className="home">
         <div className="content">
-          {transactions.length > 0 ? (
-            <Transactions transactions={transactions} />
-          ) : (
-            <p className="emptyMessage">No Transactions Found</p>
-          )}
+          {transactions.length > 0 && <Transactions transactions={transactions} />}
+          {transactions.length <= 0 && <p className="emptyMessage">No Transactions Found</p>}
         </div>
         <SideBar />
       </div>

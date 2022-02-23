@@ -1,0 +1,7 @@
+.uploadButton {
+    background-color: rgb(3, 190, 190);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -9,6 +9,7 @@ import Settings from "./pages/settings/Settings";
 import Hailey from "./pages/hailey/Hailey";
 import Categories from './pages/categories/Categories';
 import Transactions from './pages/transactions/Transactions';
+import Upload from './pages/upload/Upload';
 
 function App() {
   const {user} = useContext(Context);
@@ -24,6 +25,7 @@ function App() {
         <Route path='/hailey' element={<Hailey />} />
         <Route path='/categories'element={user ? <Categories /> : <Login />} />
         <Route path='/transactions' element={user ? <Transactions /> : <Login />} />
+        <Route path='/upload' element={user ? <Upload /> : <Login />} />
         <Route path='/*' element={<Home/>} />
       </Routes>
     </BrowserRouter>
