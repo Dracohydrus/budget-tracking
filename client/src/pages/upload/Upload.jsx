@@ -85,7 +85,7 @@ const Upload = () => {
     let largest = getLargest() + 1;
     for (var i in array) {
       let content = array[i].split(',')
-      const [date, description, credit, debit, balance] = content;
+      const [date, description, credit] = content;
       if (Number(credit) > 0) {
         resultTransactions.push({
           key: largest + i,
