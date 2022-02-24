@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Header from '../../components/header/Header'
 import './Hailey.css'
 
 const Hailey = () => {
@@ -26,10 +27,13 @@ const Hailey = () => {
     }
 
     return (
-        <div className='hailey'>
-            Hello world
-            <button className={clicks >= 4? "haileyButton angryButtonAnimation" : "haileyButton"} onClick={onClick} style={{backgroundColor: buttonColor}}>{clicks >= 3 ? <i class="far fa-angry"></i> : buttonText}</button>
-        </div>
+        <>
+            <Header />
+            <div className='hailey'>
+                Piece of poo
+                <button className={clicks >= 4? "haileyButton angryButtonAnimation" : "haileyButton"} onClick={onClick} style={{backgroundColor: buttonColor}}>{clicks >= 3 ? <i class="far fa-angry"></i> : buttonText}</button>
+            </div>
+        </>
     )
 }
 
