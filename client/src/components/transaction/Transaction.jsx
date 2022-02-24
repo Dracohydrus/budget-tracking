@@ -1,26 +1,20 @@
 import './Transaction.css'
 
-const Transaction = ({transaction}) => {
+const Transaction = ({ transaction }) => {
   return (
-      <div className="transaction">
-        <div className="transactionInfo">
-          <span className="title">{transaction.description}</span>
-          <br />
-          <span className="transactionSubtotal">${transaction.value} {transaction.currency}</span>
-          <br />
-          <span className="transactionUser">{transaction.email}</span>
-          <br />
-          <span className="transactionDate">{new Date(transaction.createdAt).toDateString()}</span>
-          {transaction.categories.length > 0 && 
-            <div className="transactionCategorires">
-              {transaction.categories.map((c)=> {
-                return <span key={transaction._id + c.name} className="transactionCategory">{c.name}</span>
-              })}
-              <br />
-            </div>
-          }
-        </div>
+    <div className='transaction'>
+      <div>{transaction.description}</div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>${transaction.value} {transaction.currency}</div>
+        <div>{new Date(transaction.createdAt).toDateString()}</div>
       </div>
+      <div className="transactionCategories">
+        {transaction.categories.map((category) => {
+          return <span key={transaction._id + category.name} className="transactionCategory">{category.name}</span>
+        })}
+        <br />
+      </div>
+    </div>
   )
 };
 

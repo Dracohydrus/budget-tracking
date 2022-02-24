@@ -31,7 +31,9 @@ const Transaction = () => {
       <div style={{ flex: "9" }}>
         <Transactions transactions={transactions} />
       </div>
-      <SideBar />
+      <div style={{ flex: '3' }}>
+        <SideBar />
+      </div>
     </div>
   )
 };

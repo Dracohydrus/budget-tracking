@@ -1,55 +1,54 @@
 .sidebar {
-    flex: 3;
-    margin: 20px;
-    padding-bottom: 30px;
-    background-color: #f0eeee;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin: 10px;
+  padding-bottom: 30px;
+  background-color: #f0eeee;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .sidebarItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .sidebarTitle {
-    margin: 10px;
-    padding: 5px;
-    width: 80%;
-    border-top: 1px solid #a7a4a4;
-    border-bottom: 1px solid #a7a4a4;
-    font-family: 'Roboto', san-serif;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 20px;
-    text-align: center;
+  margin: 10px;
+  padding: 5px;
+  width: 80%;
+  border-top: 1px solid #a7a4a4;
+  border-bottom: 1px solid #a7a4a4;
+  font-family: "Roboto", san-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
 }
 
-.sidebarList{
-    width: 100%;
-    list-style: none;
-    margin-bottom: 30px;
-    display: flex;
-    flex-wrap: wrap;
+.sidebarList {
+  width: 100%;
+  list-style: none;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .sidebarListItem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-    cursor: pointer;
-    width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  cursor: pointer;
+  width: 33%;
 }
 
 .sidebarSocial {
-    margin-top: 15px;
-    width: 250px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin-top: 15px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
