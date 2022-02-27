@@ -4,7 +4,7 @@ import SideBar from "../../components/sidebar/SideBar";
 import Transactions from "../../components/transactions/Transactions";
 import { axiosInstance } from "../../config";
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../../context/Context";
+import { Context } from "../../context/user/Context";
 import { useLocation } from "react-router-dom";
 
 const Home = () => {

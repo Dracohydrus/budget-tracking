@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { axiosInstance } from "../../../../config";
 import { toastInstance } from "../../../../utils/toast";
+import Icon from '../../../../components/basic/Icon';
 import "./AddCategory.css";
 
 const AddCategory = () => {
@@ -32,7 +33,7 @@ const AddCategory = () => {
         ></input>
       </div>
       <div className="addCategoryRight">
-        <i className="addCategoryIcon fas fa-plus" onClick={createCategory}></i>
+        <Icon className="addCategoryIcon fas fa-plus" onClick={createCategory} />
       </div>
     </form>
   );

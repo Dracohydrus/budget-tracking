@@ -17,13 +17,8 @@ const Register = () => {
     e.preventDefault();
     setError(false);
 
-    if (
-      !usernameRef.current.value ||
-      !emailRef.current.value ||
-      !passwordCheck()
-    ) {
-      return;
-    }
+    if (!usernameRef.current.value || !emailRef.current.value) return;
+    if (!passwordCheck()) return;
 
     axiosInstance
       .post("/auth/register", {
@@ -31,9 +26,7 @@ const Register = () => {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       })
-      .then((res) => {
-        window.location.replace("/login");
-      })
+      .then((res) => window.location.replace("/login"))
       .catch((err) => {
         setErrorMessage("Username or Email already exists!");
         setError(true);
@@ -43,9 +36,10 @@ const Register = () => {
 
   const passwordCheck = () => {
     setError(false);
-    if (!passwordRef.current.value && !passwordConfirmationRef.current.value)
-      return true;
-    const { success, error = "" } = isValidPassword(passwordRef.current.value, passwordConfirmationRef.current.value);
+    const password = passwordRef.current.value;
+    const passwordConfirmation = passwordConfirmationRef.current.value;
+    if (!password && !passwordConfirmation) return true;
+    const { success, error = "" } = isValidPassword(password, passwordConfirmation);
     if (success) return true;
     setErrorMessage("* " + error);
     setError(true);
