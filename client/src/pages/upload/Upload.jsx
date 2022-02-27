@@ -2,7 +2,7 @@ import './Upload.css'
 import { useContext, useEffect, useState } from "react"
 import { Context } from '../../context/Context'
 import { axiosInstance } from "../../config"
-import { toastInstance } from "../../helpers/toast"
+import { toastInstance } from "../../utils/toast"
 import dateFormat from 'dateformat'
 import UploadComponent from "../../components/upload/UploadComponent"
 

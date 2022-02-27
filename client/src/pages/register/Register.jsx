@@ -2,7 +2,7 @@ import "./Register.css";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
-import { isValidPassword } from "../../helpers/password";
+import { isValidPassword } from "../../utils/password";
 import registerBackground from '../../assets/images/register-background.jpg'
 
 const Register = () => {

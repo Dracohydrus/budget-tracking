@@ -2,8 +2,8 @@ import "./Settings.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/Context";
-import { isValidPassword } from "../../helpers/password";
-import { toastInstance } from '../../helpers/toast';
+import { isValidPassword } from "../../utils/password";
+import { toastInstance } from '../../utils/toast';
 import { userUpdate } from "../../context/Actions";
 
 const Settings = () => {
@@ -15,11 +15,11 @@ const Settings = () => {
   const passwordConfirmationRef = useRef();
 
   useEffect(() => {
-    if(!user) return
+    if (!user) return
     usernameRef.current.value = user.username
     emailRef.current.value = user.email
   }, [user]);
-  
+
 
   const onUpdate = async (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../config";
-import { toastInstance } from "../../helpers/toast";
+import { toastInstance } from "../../utils/toast";
 import "./Category.css";
 
 const Category = ({ category }) => {

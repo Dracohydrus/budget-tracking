@@ -28,10 +28,7 @@ const TopBar = () => {
         {user ? (
           <>
             <Link to="/settings" className="link">
-              <img
-                className="profileImage"
-                src={user.profilePic || ""}
-                alt=""
+              <img className="profileImage" src={user.profilePic || ""} alt=""
               />
             </Link>
             <i className="searchIcon fas fa-search"></i>
