@@ -1,6 +1,6 @@
 import { useRef } from "react";
-import { axiosInstance } from "../../config";
-import { toastInstance } from "../../utils/toast";
+import { axiosInstance } from "../../../../config";
+import { toastInstance } from "../../../../utils/toast";
 import "./AddCategory.css";
 
 const AddCategory = () => {
