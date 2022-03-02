@@ -2,8 +2,8 @@ import "./Login.css";
 import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
-import { Context } from "../../context/Context";
-import { LoginStart, LoginSuccessful, LoginFailure } from "../../context/Actions";
+import { Context } from "../../context/user/Context";
+import { LoginStart, LoginSuccessful, LoginFailure } from "../../context/user/Actions";
 import loginBackground from '../../assets/images/login-background.jpg'
 
 const Login = () => {

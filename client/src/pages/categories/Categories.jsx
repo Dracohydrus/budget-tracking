@@ -1,8 +1,7 @@
-import "./Categories.css";
 import Category from "../../components/category/Category"
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../config";
-import AddCategory from "../../components/addCategory/AddCategory";
+import AddCategory from "./components/addCategory/AddCategory";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -18,9 +17,9 @@ const Categories = () => {
   }, [categories]);
 
   return (
-    <div className="categories" style={{maxWidth: "800px", margin:"auto"}}>
-      <div style={{margin:"0 10px"}}>
-        <div style={{marginBottom:"5px"}}><AddCategory /></div>
+    <div className="categories" style={{ maxWidth: "800px", margin: "auto" }}>
+      <div style={{ margin: "0 10px" }}>
+        <div style={{ marginBottom: "5px" }}><AddCategory /></div>
         {categories.map((category) => <Category key={category._id} category={category} />)}
       </div>
     </div>

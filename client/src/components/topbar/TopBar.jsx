@@ -2,8 +2,8 @@ import "./TopBar.css";
 import Social from "../social/Social";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { Context } from "../../context/Context";
-import { Logout } from "../../context/Actions";
+import { Context } from "../../context/user/Context";
+import { Logout } from "../../context/user/Actions";
 
 const TopBar = () => {
   const { user, dispatch } = useContext(Context);
@@ -28,10 +28,7 @@ const TopBar = () => {
         {user ? (
           <>
             <Link to="/settings" className="link">
-              <img
-                className="profileImage"
-                src={user.profilePic || ""}
-                alt=""
+              <img className="profileImage" src={user.profilePic || ""} alt=""
               />
             </Link>
             <i className="searchIcon fas fa-search"></i>

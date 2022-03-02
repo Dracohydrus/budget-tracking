@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { axiosInstance } from "../../config";
-import { Context } from "../../context/Context";
+import { Context } from "../../context/user/Context";
 import Transactions from "../../components/transactions/Transactions";
 import SideBar from "../../components/sidebar/SideBar";
 

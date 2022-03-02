@@ -1,6 +1,6 @@
 import './Header.css'
 import { useContext } from 'react';
-import { Context } from '../../context/Context';
+import { Context } from '../../context/user/Context';
 import bannerImage from '../../assets/images/money-growth.jpg';
 
 const Header = () => {

@@ -1,15 +1,16 @@
 import './Upload.css'
 import { useContext, useEffect, useState } from "react"
-import { Context } from '../../context/Context'
+import { Context } from '../../context/user/Context'
 import { axiosInstance } from "../../config"
-import { toastInstance } from "../../helpers/toast"
+import { toastInstance } from "../../utils/toast"
 import dateFormat from 'dateformat'
 import UploadComponent from "../../components/upload/UploadComponent"
+import Icon from '../../components/basic/Icon';
 
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const { user } = useContext(Context)
+  const { user } = useContext(Context);
 
   useEffect(() => {
     axiosInstance.get('/category')
@@ -108,14 +109,14 @@ const Upload = () => {
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '1rem', gap: '5px' }}>
         <label htmlFor='transactionFileUpload' className='uploadButton'>
-          <i className="fa-solid fa-upload"></i>
+          <Icon className="fa-solid fa-upload" />
         </label>
         <input id='transactionFileUpload' type="file" style={{ display: 'none' }} onChange={uploadFile} />
         <button id='saveButton' className='uploadButton' onClick={() => saveTransactions()}>
-          <i className="fa-solid fa-floppy-disk"></i>
+          <Icon className="fa-solid fa-floppy-disk" />
         </button>
         <button id='addButton' className='uploadButton' onClick={createUploadTransaction} >
-          <i className="fa-solid fa-plus"></i>
+          <Icon className="fa-solid fa-plus" />
         </button>
       </div>
     </div>
