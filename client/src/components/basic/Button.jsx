@@ -7,9 +7,9 @@ const Btn = ({ ...props }) => (
 export const Button = styled(Btn)`
   background-color: lightgray;
   color: black;
-  width: 100px;
-  height: 40px;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
 `;
 
 export const PrimaryButton = styled(Button)`
