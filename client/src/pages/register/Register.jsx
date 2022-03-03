@@ -53,13 +53,13 @@ const Register = () => {
       <Title>Register</Title>
       <StyledForm onSubmit={onFormSubmit}>
         <label>Username</label>
-        <StyledInput type="text" placeholder="Username" ref={usernameRef} autoFocus />
+        <StyledInput type="text" placeholder="Username" forwardedRef={usernameRef} autoFocus />
         <label>Email</label>
-        <StyledInput type="text" placeholder="Email" ref={emailRef} />
+        <StyledInput type="text" placeholder="Email" forwardedRef={emailRef} />
         <label>Password</label>
-        <StyledInput type="password" placeholder="Password" ref={passwordRef} onChange={passwordCheck} />
+        <StyledInput type="password" placeholder="Password" forwardedRef={passwordRef} onChange={passwordCheck} />
         <label>Confirm Password</label>
-        <StyledInput type="password" placeholder="Password" ref={passwordConfirmationRef} onChange={passwordCheck} />
+        <StyledInput type="password" placeholder="Password" forwardedRef={passwordConfirmationRef} onChange={passwordCheck} />
         <RegisterButton type="submit">Register</RegisterButton>
       </StyledForm>
       <LoginButton>
@@ -67,14 +67,16 @@ const Register = () => {
           Login
         </Link>
       </LoginButton>
-      {error && (
-        <span style={{ color: "red", marginTop: "10px", fontSize: "14pt" }}>
-          {errorMessage}
-        </span>
-      )}
+      {error && (<ErrorMessage>{errorMessage}</ErrorMessage>)}
     </RegisterDiv>
   );
 };
+
+const ErrorMessage = styled.span`
+  color: red;
+  margin-top: 10px;
+  font-size: 14pt;
+`
 
 const Title = styled.span`
   font-size: 50px;

@@ -1,5 +1,5 @@
-const Input = ({ ...props }) => (
-    <input {...props} />
+const Input = ({ forwardedRef, ...props }) => (
+    <input ref={forwardedRef} {...props} />
 )
 
 export default Input
