@@ -18,7 +18,7 @@ const TopBar = () => {
           <li className="topListItem">
             <Link to="/">HOME</Link>
           </li>
-          <li className="topListItem"><Link to="/categories">{user && "CATEGORIES"}</Link></li>
+          <li className="topListItem"><Link to="/categories">CATEGORIES</Link></li>
           <li className="topListItem"><Link to="/transactions">TRANSACTIONS</Link></li>
           <li className="topListItem"><Link to="/upload">UPLOAD</Link></li>
           {user?.username === "Hailstorm" && <li className="topListItem"><Link to="/hailey">HAILEY</Link></li>}
