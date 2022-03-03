@@ -1,11 +1,12 @@
-import './Upload.css'
 import { useContext, useEffect, useState } from "react"
 import { Context } from '../../context/user/Context'
 import { axiosInstance } from "../../config"
 import { toastInstance } from "../../utils/toast"
+import { Button } from '../../components/basic/Button';
 import dateFormat from 'dateformat'
 import UploadComponent from "../../components/upload/UploadComponent"
 import Icon from '../../components/basic/Icon';
+import styled from 'styled-components';
 
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);
@@ -102,25 +103,38 @@ const Upload = () => {
   }
 
   return (
-    <div>
+    <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px' }}>
         {transactions.map((transaction) =>
           <UploadComponent key={transaction.key} transaction={transaction} categoryList={categoryList} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '1rem', gap: '5px' }}>
-        <label htmlFor='transactionFileUpload' className='uploadButton'>
+        <UploadLabel htmlFor='transactionFileUpload' className='uploadButton'>
           <Icon className="fa-solid fa-upload" />
-        </label>
+        </UploadLabel>
         <input id='transactionFileUpload' type="file" style={{ display: 'none' }} onChange={uploadFile} />
-        <button id='saveButton' className='uploadButton' onClick={() => saveTransactions()}>
+        <UploadButton id='saveButton' onClick={() => saveTransactions()}>
           <Icon className="fa-solid fa-floppy-disk" />
-        </button>
-        <button id='addButton' className='uploadButton' onClick={createUploadTransaction} >
+        </UploadButton>
+        <UploadButton id='addButton' onClick={createUploadTransaction} >
           <Icon className="fa-solid fa-plus" />
-        </button>
+        </UploadButton>
       </div>
-    </div>
+    </>
   )
 }
+
+const UploadButton = styled(Button)`
+  background-color: rgb(3, 190, 190);
+  padding: 10px 20px;
+`
+
+const UploadLabel = styled.label`
+  background-color: rgb(3, 190, 190);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`
 
 export default Upload

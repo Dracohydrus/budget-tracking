@@ -1,6 +1,7 @@
 import './SideBar.css'
 import Social from '../social/Social'
-import { Link, useLocation } from 'react-router-dom'
+import Link from '../../components/basic/Link';
+import { useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import { axiosInstance } from '../../config';
 
@@ -24,7 +25,7 @@ const SideBar = () => {
         <div className="sidebarTitle">CATEGORIES</div>
         <div className="sidebarList">
           {categories.map((c) =>
-            <li key={c._id} className="sidebarListItem"><Link className='link' to={`${pathname}?cat=${c.name}`}>{c.name}</Link></li>
+            <li key={c._id} className="sidebarListItem"><Link to={`${pathname}?cat=${c.name}`}>{c.name}</Link></li>
           )}
         </div>
       </div>
