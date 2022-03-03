@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "../../components/basic/Link";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/user/Context";
 import { LoginStart, LoginSuccessful, LoginFailure } from "../../context/user/Actions";
@@ -35,16 +35,18 @@ const Login = () => {
       <LoginTitle>Login</LoginTitle>
       <ErrorMessage>{error && "Invalid Credentials"}</ErrorMessage>
       <Form onSubmit={onSubmit}>
-        <Label>Email</Label>
-        <Input type="text" placeholder="Email" ref={emailRef} data-cy="email" autoFocus />
-        <Label>Password</Label>
-        <Input type="password" placeholder="Password" ref={passwordRef} data-cy="password" />
+        <LoginInputDiv>
+          <LoginLabel>Email</LoginLabel>
+          <Input type="text" placeholder="Email" ref={emailRef} data-cy="email" autoFocus />
+        </LoginInputDiv>
+        <LoginInputDiv>
+          <LoginLabel>Password</LoginLabel>
+          <Input type="password" placeholder="Password" ref={passwordRef} data-cy="password" />
+        </LoginInputDiv>
         <LoginButton type="submit" disabled={isFetching} data-cy="login-button">Login</LoginButton>
       </Form>
       <RegisterButton>
-        <Link to="/register" className="link">
-          Register
-        </Link>
+        <Link to="/register">Register</Link>
       </RegisterButton>
     </LoginDiv>
   );
@@ -58,11 +60,18 @@ const LoginDiv = styled.div`
   align-items: center;
 `
 
+const LoginInputDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`
+
 const LoginTitle = styled.span`
   font-size: 50px;
   font-weight: bold;
   margin-bottom: 10px;
   color: #252525;
+  text-shadow: 0 0 2px white;
 `
 
 const ErrorMessage = styled.span`
@@ -72,10 +81,12 @@ const ErrorMessage = styled.span`
 `
 
 const Form = styled.form`
-  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  background-color: lightgrey;
+  border-radius: 5px;
+  padding: 20px;
 `
 const LoginButton = styled(Button)`
   margin-top: 20px;
@@ -98,7 +109,7 @@ const RegisterButton = styled(Button)`
   width: 100px;
 `
 
-const Label = styled.label`
+const LoginLabel = styled.label`
   font-size: 14pt;
 `
 

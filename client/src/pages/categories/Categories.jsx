@@ -17,7 +17,7 @@ const Categories = () => {
   }, [categories]);
 
   return (
-    <div className="categories" style={{ maxWidth: "800px", margin: "auto" }}>
+    <div style={{ maxWidth: "800px", margin: "auto" }}>
       <div style={{ margin: "0 10px" }}>
         <div style={{ marginBottom: "5px" }}><AddCategory /></div>
         {categories.map((category) => <Category key={category._id} category={category} />)}

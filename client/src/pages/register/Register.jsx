@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
 import { isValidPassword } from "../../utils/password";
 import { Button } from "../../components/basic/Button";
 import registerBackground from '../../assets/images/register-background.jpg'
+import Link from "../../components/basic/Link";
 
 const Register = () => {
   const emailRef = useRef();
@@ -51,25 +51,37 @@ const Register = () => {
     <RegisterDiv style={{ backgroundImage: `url(${registerBackground})` }}>
       <Title>Register</Title>
       <StyledForm onSubmit={onFormSubmit}>
-        <label>Username</label>
-        <StyledInput type="text" placeholder="Username" ref={usernameRef} autoFocus />
-        <label>Email</label>
-        <StyledInput type="text" placeholder="Email" ref={emailRef} autoFocus />
-        <label>Password</label>
-        <StyledInput type="password" placeholder="Password" ref={passwordRef} onChange={passwordCheck} />
-        <label>Confirm Password</label>
-        <StyledInput type="password" placeholder="Password" ref={passwordConfirmationRef} onChange={passwordCheck} />
+        <RegisterInputDiv>
+          <label>Username</label>
+          <StyledInput type="text" placeholder="Username" ref={usernameRef} autoFocus />
+        </RegisterInputDiv>
+        <RegisterInputDiv>
+          <label>Email</label>
+          <StyledInput type="text" placeholder="Email" ref={emailRef} autoFocus />
+        </RegisterInputDiv>
+        <RegisterInputDiv>
+          <label>Password</label>
+          <StyledInput type="password" placeholder="Password" ref={passwordRef} onChange={passwordCheck} />
+        </RegisterInputDiv>
+        <RegisterInputDiv>
+          <label>Confirm Password</label>
+          <StyledInput type="password" placeholder="Password" ref={passwordConfirmationRef} onChange={passwordCheck} />
+        </RegisterInputDiv>
         <RegisterButton type="submit">Register</RegisterButton>
       </StyledForm>
       <LoginButton>
-        <Link to="/login" className="link">
-          Login
-        </Link>
+        <Link to="/login">Login</Link>
       </LoginButton>
       <ErrorMessage>{error && errorMessage}</ErrorMessage>
     </RegisterDiv>
   );
 };
+
+const RegisterInputDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`
 
 const ErrorMessage = styled.span`
   color: red;
@@ -81,7 +93,8 @@ const ErrorMessage = styled.span`
 const Title = styled.span`
   font-size: 50px;
   font-weight: bold;
-  color:rgb(22, 22, 22);
+  color: #252525;
+  text-shadow: 0 0 2px white;
 `
 
 const RegisterDiv = styled.div`
@@ -97,7 +110,10 @@ const StyledForm = styled.form`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  background-color: #d6d6d6;
+  border-radius: 5px;
+  padding: 20px;
 `
 
 const StyledInput = styled.input`

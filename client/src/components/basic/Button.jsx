@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
-const Btn = ({ ...props }) => (
-  <button {...props} />
-)
-
-export const Button = styled(Btn)`
+export const Button = styled.button`
   background-color: lightgray;
   color: black;
   border: none;

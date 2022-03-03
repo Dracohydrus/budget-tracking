@@ -1,9 +1,9 @@
 import "./TopBar.css";
 import Social from "../social/Social";
-import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../context/user/Context";
 import { Logout } from "../../context/user/Actions";
+import Link from "../../components/basic/Link";
 
 const TopBar = () => {
   const { user, dispatch } = useContext(Context);
@@ -16,18 +16,18 @@ const TopBar = () => {
       <div className="topCenter">
         <ul className="topList">
           <li className="topListItem">
-            <Link className="link" to="/">HOME</Link>
+            <Link to="/">HOME</Link>
           </li>
-          <li className="topListItem"><Link className="link" to="/categories">{user && "CATEGORIES"}</Link></li>
-          <li className="topListItem"><Link className="link" to="/transactions">TRANSACTIONS</Link></li>
-          <li className="topListItem"><Link className="link" to="/upload">UPLOAD</Link></li>
-          {user?.username === "Hailstorm" && <li className="topListItem"><Link className="link" to="/hailey">HAILEY</Link></li>}
+          <li className="topListItem"><Link to="/categories">{user && "CATEGORIES"}</Link></li>
+          <li className="topListItem"><Link to="/transactions">TRANSACTIONS</Link></li>
+          <li className="topListItem"><Link to="/upload">UPLOAD</Link></li>
+          {user?.username === "Hailstorm" && <li className="topListItem"><Link to="/hailey">HAILEY</Link></li>}
         </ul>
       </div>
       <div className="topRight">
         {user ? (
           <>
-            <Link to="/settings" className="link">
+            <Link to="/settings">
               <img className="profileImage" src={user.profilePic || ""} alt=""
               />
             </Link>
@@ -39,12 +39,12 @@ const TopBar = () => {
         ) : (
           <ul className="topList">
             <li className="topListItem">
-              <Link className="link" to="/login">
+              <Link to="/login">
                 LOGIN
               </Link>
             </li>
             <li className="topListItem">
-              <Link className="link" to="/register">
+              <Link to="/register">
                 REGISTER
               </Link>
             </li>
