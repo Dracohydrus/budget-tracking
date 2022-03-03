@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { axiosInstance } from "../../config";
 import { isValidPassword } from "../../utils/password";
 import { Button } from "../../components/basic/Button";
-import Input from "../../components/basic/Input";
 import registerBackground from '../../assets/images/register-background.jpg'
 
 const Register = () => {
@@ -53,13 +52,13 @@ const Register = () => {
       <Title>Register</Title>
       <StyledForm onSubmit={onFormSubmit}>
         <label>Username</label>
-        <StyledInput type="text" placeholder="Username" forwardedRef={usernameRef} autoFocus />
+        <StyledInput type="text" placeholder="Username" ref={usernameRef} autoFocus />
         <label>Email</label>
-        <StyledInput type="text" placeholder="Email" forwardedRef={emailRef} />
+        <StyledInput type="text" placeholder="Email" ref={emailRef} autoFocus />
         <label>Password</label>
-        <StyledInput type="password" placeholder="Password" forwardedRef={passwordRef} onChange={passwordCheck} />
+        <StyledInput type="password" placeholder="Password" ref={passwordRef} onChange={passwordCheck} />
         <label>Confirm Password</label>
-        <StyledInput type="password" placeholder="Password" forwardedRef={passwordConfirmationRef} onChange={passwordCheck} />
+        <StyledInput type="password" placeholder="Password" ref={passwordConfirmationRef} onChange={passwordCheck} />
         <RegisterButton type="submit">Register</RegisterButton>
       </StyledForm>
       <LoginButton>
@@ -67,7 +66,7 @@ const Register = () => {
           Login
         </Link>
       </LoginButton>
-      {error && (<ErrorMessage>{errorMessage}</ErrorMessage>)}
+      <ErrorMessage>{error && errorMessage}</ErrorMessage>
     </RegisterDiv>
   );
 };
@@ -76,6 +75,7 @@ const ErrorMessage = styled.span`
   color: red;
   margin-top: 10px;
   font-size: 14pt;
+  height: 40px;
 `
 
 const Title = styled.span`
@@ -100,7 +100,7 @@ const StyledForm = styled.form`
   gap: 10px;
 `
 
-const StyledInput = styled(Input)`
+const StyledInput = styled.input`
   padding: 10px;
   background-color: white;
   border: 1px solid rgb(105, 105, 105);
