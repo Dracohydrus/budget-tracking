@@ -36,4 +36,11 @@ router.post('/', async (req, res) => {
         .catch((err) => res.status(500).json(data))
 });
 
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    Transaction.findByIdAndDelete(id)
+        .then((transaction) => res.status(200).json("Record deleted"))
+        .catch((err) => res.status(500).json(err))
+})
+
 module.exports = router;

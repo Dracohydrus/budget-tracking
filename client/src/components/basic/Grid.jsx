@@ -1,26 +1,11 @@
-import { useEffect, useState } from "react";
 import { AgGridReact } from 'ag-grid-react';
 
-import 'ag-grid-enterprise';
+// import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-const Grid = () => {
-  const [rowData, setRowData] = useState([]);
-
-  const [columnDefs] = useState([
-    { field: "make", sortable: true, filter: true, resizable: true, enableRowGroup: true },
-    { field: "model", sortable: true, filter: true, resizable: true, enableRowGroup: true },
-    { field: "price", sortable: true, filter: true, resizable: true }
-  ]);
-
-  useEffect(() => {
-    fetch('https://www.ag-grid.com/example-assets/row-data.json')
-      .then(result => result.json())
-      .then(rowData => setRowData(rowData))
-  }, [])
-
-  const sideBar = {
+const Grid = ({ rowData, columnDefs, sideBar, style, ...props }) => {
+  const defaultSideBar = {
     toolPanels: [{
       id: 'columns',
       labelDefault: 'Columns',
@@ -46,13 +31,14 @@ const Grid = () => {
   }
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: 700 }}>
+    <div className="ag-theme-alpine" style={{ height: '100%', width: '100%', ...style }}>
       <AgGridReact
         rowData={rowData}
         columnDefs={columnDefs}
         rowSelection="multiple"
-        sideBar={sideBar}
-        rowGroupPanelShow={'onlyWhenGrouping'}>
+        sideBar={sideBar || defaultSideBar}
+        rowGroupPanelShow={'onlyWhenGrouping'}
+        {...props}>
       </AgGridReact>
     </div>
 
