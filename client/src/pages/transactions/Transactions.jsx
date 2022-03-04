@@ -11,13 +11,37 @@ const Transaction = () => {
   const { search } = useLocation()
   const { user } = useContext(Context)
   const [columnDefs] = useState([
-    { field: "email", hide: true },
-    { field: "description" },
-    { field: "value" },
-    { field: "currency" },
-    { field: "transactionDate", valueFormatter: params => new Date(params.data.transactionDate).toDateString() },
-    { field: "categories", valueGetter: params => params.data?.categories.map(x => x.name).join(', ') },
-    { field: "delete", cellClass: "fa fa-trash", cellStyle: { cursor: "pointer" }, width: 50, headerName: '' }
+    {
+      field: "email",
+      hide: true
+    },
+    {
+      field: "description",
+    },
+    {
+      field: "value",
+      cellStyle: params => (params.data.value > 0) ? { 'color': 'green' } : { 'color': 'red' },
+      valueFormatter: params => params.data.value < 0 ? `$${Math.abs(Number(params.data.value)).toFixed(2)}` : params.data.value
+    },
+    {
+      field: "currency",
+    },
+    {
+      field: "transactionDate",
+      valueFormatter: params => new Date(params.data.transactionDate).toDateString()
+    },
+    {
+      field: "categories",
+      valueGetter: params => params.data?.categories.map(x => x.name).join(', ')
+    },
+    {
+      field: "delete",
+      cellClass: "fa fa-trash",
+      headerClass: "fa fa-trash",
+      cellStyle: { cursor: "pointer" },
+      width: 50,
+      headerName: ''
+    }
   ])
 
   useEffect(() => {

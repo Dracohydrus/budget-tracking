@@ -4,7 +4,7 @@ import { axiosInstance } from "../../config"
 import { toastInstance } from "../../utils/toast"
 import { Button } from '../../components/basic/Button';
 import dateFormat from 'dateformat'
-import UploadComponent from "../../components/upload/UploadComponent"
+import UploadComponent from "./components/uploader/Uploader"
 import Icon from '../../components/basic/Icon';
 import styled from 'styled-components';
 
@@ -88,12 +88,13 @@ const Upload = () => {
     for (var i in array) {
       let content = array[i].split(',')
       const [date, description, credit] = content;
+      console.log(date, description, credit)
       if (Number(credit) > 0) {
         resultTransactions.push({
           key: largest + i,
           description: description,
           currency: user.currency || 'CAD',
-          value: parseFloat(credit)?.toFixed(2) || 0,
+          value: -1 * parseFloat(credit)?.toFixed(2) || 0,
           categories: [],
           transactionDate: dateFormat(date, 'yyyy-mm-dd')
         })
@@ -119,6 +120,7 @@ const Upload = () => {
         <UploadButton id='addButton' onClick={createUploadTransaction} >
           <Icon className="fa-solid fa-plus" />
         </UploadButton>
+        <UploadButton onClick={() => setTransactions([])}>Clear</UploadButton>
       </div>
     </>
   )

@@ -30,6 +30,11 @@ const Grid = ({ rowData, columnDefs, sideBar, style, ...props }) => {
     defaultToolPanel: 'none'
   }
 
+  const defaultColDef = {
+    resizable: true,
+    sortable: true
+  }
+
   return (
     <div className="ag-theme-alpine" style={{ height: '100%', width: '100%', ...style }}>
       <AgGridReact
@@ -38,6 +43,7 @@ const Grid = ({ rowData, columnDefs, sideBar, style, ...props }) => {
         rowSelection="multiple"
         sideBar={sideBar || defaultSideBar}
         rowGroupPanelShow={'onlyWhenGrouping'}
+        defaultColDef={defaultColDef}
         {...props}>
       </AgGridReact>
     </div>

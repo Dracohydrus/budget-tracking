@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
         .catch((err) => res.status(500).json(data))
 });
 
+//DELETE
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     Transaction.findByIdAndDelete(id)
