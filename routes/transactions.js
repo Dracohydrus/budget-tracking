@@ -44,4 +44,22 @@ router.delete('/:id', async (req, res) => {
         .catch((err) => res.status(500).json(err))
 })
 
+//UPDATE
+router.put('/', async (req, res) => {
+    const { id, description, value, currency, transactionDate, categories } = req.body;
+    var newTransaction = {
+        description,
+        value,
+        currency,
+        transactionDate,
+        categories
+    };
+
+    Transaction.findByIdAndUpdate(id, {
+        $set: newTransaction
+    }, { new: true })
+        .then(newRecord => res.status(200).json(newRecord._doc))
+        .catch(err => res.status(500).json(err))
+})
+
 module.exports = router;

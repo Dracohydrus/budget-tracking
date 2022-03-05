@@ -1,5 +1,4 @@
 import "./TopBar.css";
-import Social from "../social/Social";
 import { useContext } from "react";
 import { Context } from "../../context/user/Context";
 import { Logout } from "../../context/user/Actions";
@@ -11,7 +10,6 @@ const TopBar = () => {
   return (
     <div className="top">
       <div className="topLeft">
-        <Social />
       </div>
       <div className="topCenter">
         <ul className="topList">

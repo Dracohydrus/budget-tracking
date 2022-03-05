@@ -5,6 +5,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const Grid = ({ rowData, columnDefs, sideBar, style, ...props }) => {
+
   const defaultSideBar = {
     toolPanels: [{
       id: 'columns',
@@ -32,7 +33,7 @@ const Grid = ({ rowData, columnDefs, sideBar, style, ...props }) => {
 
   const defaultColDef = {
     resizable: true,
-    sortable: true
+    sortable: true,
   }
 
   return (
