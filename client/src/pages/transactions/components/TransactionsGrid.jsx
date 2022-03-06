@@ -51,16 +51,13 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         {
             field: "categories",
             editable: true,
-            valueGetter: params => {
-                return params?.data?.categories?.map(cat => cat.name).join(', ') || params.data.categories
-            },
+            valueGetter: params => params?.data?.categories?.map(cat => cat.name).join(', ') || params.data.categories,
             valueSetter: params => {
                 let newCategory = categories.find(category => category.name === params.newValue) || null
-                console.log(newCategory)
                 params.data.categories = [newCategory]
+                params.newValue = [newCategory]
                 return true
             },
-            valueParser: params => [categories.find(category => category.name === params.newValue) || null],
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
                 values: ['', ...categories.map(x => x.name)],
@@ -88,10 +85,16 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
 
     const onCellUpdate = async (id, column, value) => {
         if (!id || !column || !value) return;
-        if (column === 'transactionDate') return console.log('hitting here')
         let newData = { id }
-        newData[column] = value;
-        console.log(`Updating ${column} with ${value}`)
+        if (column === 'categories') {
+            newData = {
+                'categories': categories.find(category => category.name === value) || [],
+                ...newData
+            }
+        } else {
+            newData[column] = value;
+        }
+        console.log(newData)
         axiosInstance.put('/transaction', newData)
             .then(res => toast.success('Transaction Updated'))
             .catch(err => toast.error('Unable to update Transaction'))
