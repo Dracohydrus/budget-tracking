@@ -1,18 +1,44 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { axiosInstance } from '../../../config';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import Grid from '../../../components/basic/Grid/Grid';
 import toast from '../../../utils/toast';
+
+const MyDatePicker = forwardRef((props, ref) => {
+    const { data } = props
+    const [date, setDate] = useState(new Date(data.transactionDate))
+
+    useImperativeHandle(ref, () => ({
+        getDate() {
+            return date;
+        },
+        setDate(date) {
+            setDate(date);
+        },
+    }));
+
+    return <DatePicker
+        portalId="root"
+        selected={date}
+        onChange={date => {
+            setDate(date)
+        }}
+    />
+})
 
 const TransactionsGrid = ({ transactions, setTransactions }) => {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
+        let isMounted = true
         const fetchCategories = async () => {
             axiosInstance.get('/category')
-                .then(res => setCategories(res.data))
+                .then(res => isMounted && setCategories(res.data))
                 .catch(err => console.log(err))
         }
         fetchCategories();
+        return () => isMounted = false
     }, [])
 
     const columnDefs = useMemo(() => ([
@@ -42,9 +68,11 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         },
         {
             field: "transactionDate",
-            cellEditor: 'agDateInput',
+            editable: true,
             sort: 'desc',
             sortingOrder: ['desc', 'asc'],
+            cellEditor: MyDatePicker,
+            cellEditorPopup: true,
             valueGetter: params => new Date(params.data.transactionDate),
             valueFormatter: params => new Date(params.data.transactionDate).toDateString(),
         },

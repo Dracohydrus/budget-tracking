@@ -11,6 +11,7 @@ const Transaction = () => {
   const { user } = useContext(Context)
 
   useEffect(() => {
+    let isMounted = true
     const fetchTransactions = async () => {
       if (!user) {
         setTransactions([]);
@@ -20,10 +21,11 @@ const Transaction = () => {
       newSearch += "email=" + user.email;
       axiosInstance
         .get("/transaction" + newSearch)
-        .then((res) => setTransactions(res.data))
+        .then((res) => isMounted && setTransactions(res.data))
         .catch((err) => console.log(err));
     };
     fetchTransactions();
+    return () => isMounted = false;
   }, [search, user]);
 
   return (

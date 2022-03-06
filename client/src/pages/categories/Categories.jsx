@@ -1,19 +1,21 @@
-import Category from "../../components/category/Category"
 import { useEffect, useState } from "react";
 import { axiosInstance } from "../../config";
+import Category from "../../components/category/Category"
 import AddCategory from "./components/addCategory/AddCategory";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    let isMounted = true
     const fetchCategories = async () => {
       axiosInstance
         .get("/category")
-        .then((response) => setCategories(response.data))
+        .then((response) => isMounted && setCategories(response.data))
         .catch((err) => console.log("Unable to fetch categories"));
     };
     fetchCategories();
+    return () => isMounted = false
   }, [categories]);
 
   return (

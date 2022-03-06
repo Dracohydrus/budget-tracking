@@ -10,12 +10,14 @@ const SideBar = () => {
   const { pathname } = useLocation()
 
   useEffect(() => {
+    let isMounted = true
     const fetchCategories = async () => {
       axiosInstance.get('/category')
-        .then((res) => setCategories(res.data))
+        .then((res) => isMounted && setCategories(res.data))
         .catch((err) => console.log(err))
     }
     fetchCategories();
+    return () => isMounted = false
   }, []);
 
 
