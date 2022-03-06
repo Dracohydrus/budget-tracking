@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { Context } from '../../context/user/Context'
 import { axiosInstance } from "../../config"
-import { toastInstance } from "../../utils/toast"
 import { Button } from '../../components/basic/Button';
+import toast from "../../utils/toast"
 import dateFormat from 'dateformat'
 import UploadComponent from "./components/uploader/Uploader"
 import Icon from '../../components/basic/Icon';
@@ -67,9 +67,9 @@ const Upload = () => {
     axiosInstance.post('/transaction', { data: newTransactions })
       .then((transactions) => {
         setTransactions([])
-        toastInstance.success("Transactions Created")
+        toast.success("Transactions Created")
       })
-      .catch((err) => toastInstance.error(err))
+      .catch((err) => toast.error(err))
   }
 
   const uploadFile = (e) => {

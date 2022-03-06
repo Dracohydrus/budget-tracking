@@ -1,19 +1,21 @@
-import { toast } from 'react-toastify'
+import { toast as toastInstance } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-toast.configure()
+toastInstance.configure()
 
 const DEFAULT_OPTIONS = {
-    position: toast.POSITION.BOTTOM_RIGHT
+    position: toastInstance.POSITION.BOTTOM_RIGHT
 }
 
-export const toastInstance = {
+const toast = {
     success: (message) => {
-        toast.success(message, DEFAULT_OPTIONS)
+        toastInstance.success(message, DEFAULT_OPTIONS)
     },
     error: (message) => {
-        toast.error(message, DEFAULT_OPTIONS)
+        toastInstance.error(message, DEFAULT_OPTIONS)
     },
     info: (message) => {
-        toast.info(message, DEFAULT_OPTIONS)
+        toastInstance.info(message, DEFAULT_OPTIONS)
     }
 }
+
+export default toast;

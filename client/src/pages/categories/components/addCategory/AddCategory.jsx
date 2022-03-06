@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { axiosInstance } from "../../../../config";
-import { toastInstance } from "../../../../utils/toast";
+import toast from "../../../../utils/toast";
 import Icon from '../../../../components/basic/Icon';
 import styled from 'styled-components';
 
@@ -15,10 +15,10 @@ const AddCategory = () => {
         name: addCategoryRef.current.value,
       })
       .then((res) => {
-        toastInstance.success("Category Created");
+        toast.success("Category Created");
         addCategoryRef.current.value = "";
       })
-      .catch((err) => toastInstance.error(err));
+      .catch((err) => toast.error(err));
   };
 
   return (

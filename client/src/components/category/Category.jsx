@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../config";
-import { toastInstance } from "../../utils/toast";
+import toast from "../../utils/toast";
 import Icon from '../basic/Icon';
 import styled from 'styled-components';
 
@@ -9,8 +9,8 @@ const Category = ({ category }) => {
   const deleteCategory = async (id) => {
     axiosInstance
       .delete("/category/" + id)
-      .then((res) => toastInstance.success("Category Deleted"))
-      .catch((err) => toastInstance.error("Category Not Deleted"));
+      .then((res) => toast.success("Category Deleted"))
+      .catch((err) => toast.error("Category Not Deleted"));
   };
 
   return (
