@@ -58,7 +58,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             editable: true,
             valueGetter: params => params?.data?.categories?.map(cat => cat.name).join(', ') || params.data.categories,
             valueSetter: params => {
-                let newCategory = categories.find(category => category.name === params.newValue) || null
+                let newCategory = categories.find(category => category.name === params.newValue) || []
                 params.data.categories = [newCategory]
                 params.newValue = [newCategory]
                 return true
