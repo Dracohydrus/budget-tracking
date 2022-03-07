@@ -1,31 +1,8 @@
-import { useEffect, useMemo, useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { axiosInstance } from '../../../config';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from '../../../components/basic/DatePicker';
 import Grid from '../../../components/basic/Grid/Grid';
 import toast from '../../../utils/toast';
-
-const MyDatePicker = forwardRef((props, ref) => {
-    const { data } = props
-    const [date, setDate] = useState(new Date(data.transactionDate))
-
-    useImperativeHandle(ref, () => ({
-        getDate() {
-            return date;
-        },
-        setDate(date) {
-            setDate(date);
-        },
-    }));
-
-    return <DatePicker
-        portalId="root"
-        selected={date}
-        onChange={date => {
-            setDate(date)
-        }}
-    />
-})
 
 const TransactionsGrid = ({ transactions, setTransactions }) => {
     const [categories, setCategories] = useState([])
@@ -122,7 +99,6 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         } else {
             newData[column] = value;
         }
-        console.log(newData)
         axiosInstance.put('/transaction', newData)
             .then(res => toast.success('Transaction Updated'))
             .catch(err => toast.error('Unable to update Transaction'))
@@ -148,5 +124,27 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         </div>
     )
 }
+
+const MyDatePicker = forwardRef((props, ref) => {
+    const { data } = props
+    const [date, setDate] = useState(new Date(data.transactionDate))
+
+    useImperativeHandle(ref, () => ({
+        getValue() {
+            return date;
+        },
+        setValue(date) {
+            setDate(date);
+        },
+    }));
+
+    return <DatePicker
+        portalId="root"
+        selected={date}
+        onChange={date => {
+            setDate(date)
+        }}
+    />
+})
 
 export default TransactionsGrid
