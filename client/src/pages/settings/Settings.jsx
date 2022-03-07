@@ -3,7 +3,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { axiosInstance } from "../../config";
 import { Context } from "../../context/user/Context";
 import { isValidPassword } from "../../utils/password";
-import { toastInstance } from '../../utils/toast';
+import toast from '../../utils/toast';
 import { userUpdate } from "../../context/user/Actions";
 import Icon from '../../components/basic/Icon';
 
@@ -39,10 +39,10 @@ const Settings = () => {
       })
       .then((res) => {
         dispatch(userUpdate(res.data))
-        toastInstance.success("User Updated")
+        toast.success("User Updated")
       })
       .catch((err) => {
-        toastInstance.error("Unable to Update User")
+        toast.error("Unable to Update User")
         console.error(err)
       });
   };
