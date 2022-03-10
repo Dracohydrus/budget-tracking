@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
-// import 'ag-grid-enterprise';
+import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 

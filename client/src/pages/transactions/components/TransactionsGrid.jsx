@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
 import { axiosInstance } from '../../../config';
+import { DeleteConfirmation } from '../../../components/basic/Popup';
 import DatePicker from '../../../components/basic/DatePicker';
 import Grid from '../../../components/basic/Grid/Grid';
 import toast from '../../../utils/toast';
@@ -38,6 +39,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         {
             field: "currency",
             editable: true,
+            hide: true,
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
                 values: ['CAD', 'USD']
@@ -104,12 +106,23 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             .catch(err => toast.error('Unable to update Transaction'))
     }
 
-    const onGridReady = e => {
-        e.api.sizeColumnsToFit();
+    const onGridReady = params => {
+        params.api.sizeColumnsToFit();
+        let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
+        if (!columnState) return
+        params.columnApi.applyColumnState(columnState)
     }
 
-    const onCellClicked = e => {
-        if (e?.column?.colId === 'delete') onDelete(e?.data?._id)
+    const onDragStopped = params => {
+        let columnState = JSON.stringify(params.columnApi.getColumnState());
+        localStorage.setItem('transactionGridColumnState', columnState);
+    }
+
+    const onCellClicked = params => {
+        if (params?.column?.colId === 'delete') {
+            DeleteConfirmation()
+                .then(() => onDelete(params?.data?._id))
+        }
     }
 
     return (
@@ -120,6 +133,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
                 onGridReady={onGridReady}
                 onCellClicked={onCellClicked}
                 onCellValueChanged={e => onCellUpdate(e.data._id, e.column.colId, e.newValue)}
+                onDragStopped={onDragStopped}
             />
         </div>
     )

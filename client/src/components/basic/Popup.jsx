@@ -1,12 +1,18 @@
-import { Popup as ReactPopup } from 'reactjs-popup';
-import 'reactjs-popup/dist/index.css';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 
-const Popup = ({ ...props }) => {
-    return <ReactPopup {...props} />
+export const DeleteConfirmation = () => {
+    return new Promise((resolve, reject) => {
+        confirmAlert({
+            title: "Delete Record",
+            message: "Are you sure you want to delete this record?",
+            buttons: [{
+                label: 'Yes',
+                onClick: () => resolve()
+            }, {
+                label: 'No',
+                onClick: () => reject()
+            }],
+        })
+    })
 }
-
-export const Modal = ({ ...props }) => {
-    return <Popup modal {...props} />
-}
-
-export default Popup

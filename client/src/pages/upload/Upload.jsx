@@ -85,25 +85,6 @@ const Upload = () => {
   }
 
   const processFile = (string) => {
-    // let array = string.split(/\n|\r\n|\r/gi)
-    // let resultTransactions = []
-    // let largest = getLargest() + 1;
-    // for (var i in array) {
-    //   let content = array[i].split(',')
-    //   const [date, description, credit] = content;
-    //   console.log(date, description, credit)
-    //   if (Number(credit) > 0) {
-    //     resultTransactions.push({
-    //       key: largest + i,
-    //       description: description,
-    //       currency: user.currency || 'CAD',
-    //       value: -1 * parseFloat(credit)?.toFixed(2) || 0,
-    //       categories: [],
-    //       transactionDate: dateFormat(date, 'yyyy-mm-dd')
-    //     })
-    //   }
-    // }
-    // setTransactions([...transactions, ...resultTransactions])
     let newTransactions = csvFileProcess(string, user.currency, getLargest())
     console.table(newTransactions)
     setTransactions([...transactions, ...newTransactions])
