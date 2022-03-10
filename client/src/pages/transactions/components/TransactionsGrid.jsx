@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
 import { axiosInstance } from '../../../config';
 import { DeleteConfirmation } from '../../../components/basic/Popup';
 import DatePicker from '../../../components/basic/DatePicker';
@@ -19,7 +19,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         return () => isMounted = false
     }, [])
 
-    const columnDefs = useMemo(() => ([
+    const [columnDefs, setColumnDefs] = useState([
         {
             field: "email",
             hide: true
@@ -78,7 +78,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             width: 50,
             headerName: ''
         }
-    ]), [categories])
+    ])
 
     const onDelete = async (id) => {
         if (!id) return;
@@ -109,13 +109,18 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
     const onGridReady = params => {
         params.api.sizeColumnsToFit();
         let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
-        if (!columnState) return
-        params.columnApi.applyColumnState(columnState)
+        if (columnState) params.columnApi.applyColumnState({ state: columnState, applyOrder: true })
+        let filterModel = JSON.parse(localStorage.getItem('transactionGridFilterModel'))
+        if (filterModel) params.columnApi.applyFilterModel(filterModel)
+
     }
 
     const onDragStopped = params => {
-        let columnState = JSON.stringify(params.columnApi.getColumnState());
-        localStorage.setItem('transactionGridColumnState', columnState);
+        let columnState = JSON.stringify(params.columnApi.getColumnState())
+        localStorage.setItem('transactionGridColumnState', columnState)
+        let filterModel = JSON.stringify(params.columnApi.getFilterModel())
+        localStorage.setItem('transactionGridFilterModel', filterModel)
+        console.log(filterModel)
     }
 
     const onCellClicked = params => {
@@ -155,9 +160,7 @@ const MyDatePicker = forwardRef((props, ref) => {
     return <DatePicker
         portalId="root"
         selected={date}
-        onChange={date => {
-            setDate(date)
-        }}
+        onChange={date => setDate(date)}
     />
 })
 
