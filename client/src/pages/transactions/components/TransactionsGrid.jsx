@@ -1,4 +1,4 @@
-import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { axiosInstance } from '../../../config';
 import { DeleteConfirmation } from '../../../components/basic/Popup';
 import DatePicker from '../../../components/basic/DatePicker';
@@ -7,6 +7,7 @@ import toast from '../../../utils/toast';
 
 const TransactionsGrid = ({ transactions, setTransactions }) => {
     const [categories, setCategories] = useState([])
+    const gridRef = useRef()
 
     useEffect(() => {
         let isMounted = true
@@ -48,6 +49,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         {
             field: "transactionDate",
             editable: true,
+            filter: 'agDateColumnFilter',
             sort: 'desc',
             sortingOrder: ['desc', 'asc'],
             cellEditor: MyDatePicker,
@@ -67,7 +69,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             },
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
-                values: ['', ...categories.map(x => x.name)],
+                values: ['', ...categories.map(cat => cat.name)],
             }
         },
         {
@@ -106,23 +108,6 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             .catch(err => toast.error('Unable to update Transaction'))
     }
 
-    const onGridReady = params => {
-        params.api.sizeColumnsToFit();
-        let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
-        if (columnState) params.columnApi.applyColumnState({ state: columnState, applyOrder: true })
-        let filterModel = JSON.parse(localStorage.getItem('transactionGridFilterModel'))
-        if (filterModel) params.columnApi.applyFilterModel(filterModel)
-
-    }
-
-    const onDragStopped = params => {
-        let columnState = JSON.stringify(params.columnApi.getColumnState())
-        localStorage.setItem('transactionGridColumnState', columnState)
-        let filterModel = JSON.stringify(params.columnApi.getFilterModel())
-        localStorage.setItem('transactionGridFilterModel', filterModel)
-        console.log(filterModel)
-    }
-
     const onCellClicked = params => {
         if (params?.column?.colId === 'delete') {
             DeleteConfirmation()
@@ -133,12 +118,31 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
     return (
         <div style={{ flex: "9", height: 'calc(100vh - 50px)' }}>
             <Grid
+                ref={gridRef}
                 columnDefs={columnDefs}
                 rowData={transactions}
-                onGridReady={onGridReady}
                 onCellClicked={onCellClicked}
                 onCellValueChanged={e => onCellUpdate(e.data._id, e.column.colId, e.newValue)}
-                onDragStopped={onDragStopped}
+                onGridReady={params => {
+                    let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
+                    if (columnState) params.columnApi.applyColumnState({ state: columnState, applyOrder: true })
+                }}
+                onDragStopped={params => {
+                    let columnState = JSON.stringify(params.columnApi.getColumnState())
+                    localStorage.setItem('transactionGridColumnState', columnState)
+                }}
+                onFilterChanged={params => {
+                    let filterModel = JSON.stringify(params.api.getFilterModel())
+                    localStorage.setItem('transactionGridFilterModel', filterModel)
+                }}
+                onFirstDataRendered={params => {
+                    let filterModel = JSON.parse(localStorage.getItem('transactionGridFilterModel'))
+                    if (filterModel) params.api.setFilterModel(filterModel)
+                }}
+                onRowDataChanged={params => {
+                    let filterModel = JSON.parse(localStorage.getItem('transactionGridFilterModel'))
+                    if (filterModel) params.api.setFilterModel(filterModel)
+                }}
             />
         </div>
     )

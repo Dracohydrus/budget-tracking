@@ -2,11 +2,18 @@ const router = require('express').Router();
 const Transaction = require('../models/Transaction');
 
 //GET
-router.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    Transaction.findById(id)
-        .then((transaction) => res.status(200).json(transaction))
-        .catch((err) => res.status(404).json("Transaction not found"))
+router.get('/:ids', async (req, res) => {
+    const { ids } = req.params;
+    if (!ids) return res.status(500).json('ID is a required parameter')
+    let idArray = ids.split(',')
+    if (!idArray || idArray.length === 0) return res.status(500).json('No transaction IDs to get')
+    Transaction.find({
+        _id: {
+            $in: idArray
+        }
+    })
+        .then(transaction => res.status(200).json(transaction))
+        .catch(err => res.status(500).json(err))
 });
 
 //GET ALL TRANSACTIONS
@@ -37,11 +44,17 @@ router.post('/', async (req, res) => {
 });
 
 //DELETE
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-    Transaction.findByIdAndDelete(id)
-        .then((transaction) => res.status(200).json("Record deleted"))
-        .catch((err) => res.status(500).json(err))
+router.delete('/:ids', async (req, res) => {
+    const { ids } = req.params;
+    if (!ids) return res.status(500).json('ID is a required parameter')
+    let idArray = ids.split(',')
+    Transaction.deleteMany({
+        _id: {
+            $in: idArray
+        }
+    })
+        .then(transaction => res.status(200).json(transaction))
+        .catch(err => res.status(500).json(err))
 })
 
 //UPDATE

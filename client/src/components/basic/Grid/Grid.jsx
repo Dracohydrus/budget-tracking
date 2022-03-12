@@ -1,12 +1,12 @@
-import { useMemo, useRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 // import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
-const Grid = ({ rowData, columnDefs, style, ...props }) => {
-  const gridRef = useRef();
+const Grid = forwardRef((props, ref) => {
+  const { rowData, columnDefs, style, ...restProps } = props;
   const defaultSideBar = useMemo(() => ({
     toolPanels: [{
       id: 'columns',
@@ -38,20 +38,21 @@ const Grid = ({ rowData, columnDefs, style, ...props }) => {
   }), [])
 
   return (
-    <div className="ag-theme-alpine" style={{ height: '100%', width: '100%', ...style }}>
-      <AgGridReact
-        ref={gridRef}
-        rowData={rowData}
-        columnDefs={columnDefs}
-        rowSelection="multiple"
-        sideBar={defaultSideBar}
-        rowGroupPanelShow={'onlyWhenGrouping'}
-        defaultColDef={defaultColDef}
-        {...props}>
-      </AgGridReact>
-    </div>
-
+    <>
+      <div className="ag-theme-alpine" style={{ height: '100%', width: '100%', ...style }} >
+        <AgGridReact
+          ref={ref}
+          rowData={rowData}
+          columnDefs={columnDefs}
+          rowSelection="multiple"
+          sideBar={defaultSideBar}
+          rowGroupPanelShow={'onlyWhenGrouping'}
+          defaultColDef={defaultColDef}
+          {...restProps}>
+        </AgGridReact>
+      </div >
+    </>
   )
-}
+})
 
 export default Grid

@@ -1,0 +1,26 @@
+DELETE http://localhost:9000/api/transaction/61e4854073b814c351b388ee HTTP/1.1
+content-type: application/json
+
+{
+    "userId": "61e45326d68a014dd59cc808",
+    "transactionId": "61e4854073b814c351b388ee"
+}
+
+###
+
+GET http://localhost:9000/api/transaction
+###
+
+GET http://localhost:9000/api/transaction/62227819103a0d48770d531f
+
+###
+
+GET http://localhost:9000/api/transaction/62227819103a0d48770d531f,62227819103a0d48770d5320
+
+###
+
+GET http://localhost:9000/api/category HTTP/1.1
+
+###
+
+GET http://localhost:9000/api/transaction?email=dracokris123@gmail.com&cat=Bills HTTP/1.1
