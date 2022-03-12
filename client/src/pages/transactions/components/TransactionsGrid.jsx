@@ -1,25 +1,12 @@
-import { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import { axiosInstance } from '../../../config';
 import { DeleteConfirmation } from '../../../components/basic/Popup';
 import DatePicker from '../../../components/basic/DatePicker';
 import Grid from '../../../components/basic/Grid/Grid';
 import toast from '../../../utils/toast';
 
-const TransactionsGrid = ({ transactions, setTransactions }) => {
-    const [categories, setCategories] = useState([])
+const TransactionsGrid = ({ transactions, setTransactions, categories }) => {
     const gridRef = useRef()
-
-    useEffect(() => {
-        let isMounted = true
-        const fetchCategories = async () => {
-            axiosInstance.get('/category')
-                .then(res => isMounted && setCategories(res.data))
-                .catch(err => console.log(err))
-        }
-        fetchCategories();
-        return () => isMounted = false
-    }, [])
-
     const [columnDefs, setColumnDefs] = useState([
         {
             field: "email",
@@ -119,7 +106,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         <div style={{ flex: "9", height: 'calc(100vh - 50px)' }}>
             <Grid
                 ref={gridRef}
-                columnDefs={columnDefs}
+                columnDefs={columnDefs} setColumnDefs={setColumnDefs}
                 rowData={transactions}
                 onCellClicked={onCellClicked}
                 onCellValueChanged={e => onCellUpdate(e.data._id, e.column.colId, e.newValue)}

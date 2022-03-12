@@ -7,6 +7,7 @@ import TransactionsGrid from "./components/TransactionsGrid";
 
 const Transaction = () => {
   const [transactions, setTransactions] = useState([])
+  const [categories, setCategories] = useState([])
   const { search } = useLocation()
   const { user } = useContext(Context)
 
@@ -25,12 +26,20 @@ const Transaction = () => {
         .catch((err) => console.log(err));
     };
     fetchTransactions();
+
+    const fetchCategories = async () => {
+      axiosInstance.get('/category')
+        .then(res => isMounted && setCategories(res.data))
+        .catch(err => console.log(err))
+    }
+    fetchCategories();
+
     return () => isMounted = false;
   }, [search, user]);
 
   return (
     <div style={{ display: "flex" }}>
-      <TransactionsGrid transactions={transactions} setTransactions={setTransactions} />
+      {categories && categories.length > 0 && <TransactionsGrid transactions={transactions} setTransactions={setTransactions} categories={categories} />}
       <div style={{ flex: '3' }}>
         <SideBar />
       </div>
