@@ -40,7 +40,7 @@ const Transaction = () => {
   return (
     <div style={{ display: "flex" }}>
       {categories && categories.length > 0 && <TransactionsGrid transactions={transactions} setTransactions={setTransactions} categories={categories} />}
-      <div style={{ flex: '3' }}>
+      <div style={{ flex: '3', height: 'calc(100vh-50px)', margin: '10px' }}>
         <SideBar />
       </div>
     </div>
