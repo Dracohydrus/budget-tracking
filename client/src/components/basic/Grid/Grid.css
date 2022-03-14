@@ -1,0 +1,7 @@
+.ag-row-selected .ag-cell {
+  background-color: rgb(209, 209, 209);
+}
+
+.ag-cell-focus {
+  border-color: #555 !important;
+}

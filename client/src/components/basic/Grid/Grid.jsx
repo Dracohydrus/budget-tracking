@@ -4,6 +4,7 @@ import { AgGridReact } from 'ag-grid-react';
 // import 'ag-grid-enterprise';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import './Grid.css'
 
 const Grid = forwardRef((props, ref) => {
   const { rowData, columnDefs, style, ...restProps } = props;
@@ -45,9 +46,11 @@ const Grid = forwardRef((props, ref) => {
           rowData={rowData}
           columnDefs={columnDefs}
           rowSelection="multiple"
+          cellSelection="none"
           sideBar={defaultSideBar}
           rowGroupPanelShow={'onlyWhenGrouping'}
           defaultColDef={defaultColDef}
+          rowClass={params => 'my-grid'}
           {...restProps}>
         </AgGridReact>
       </div >
