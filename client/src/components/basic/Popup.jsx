@@ -19,7 +19,7 @@ export const ConfirmationPopup = ({ title, message }) => {
     })
 }
 
-export const DeleteConfirmation = ({ title, message }) => {
+export const DeleteConfirmation = ({ title, message } = {}) => {
     title = title || "Delete Record"
     message = message || "Are you sure you want to delete this record?"
     return ConfirmationPopup({ title, message })

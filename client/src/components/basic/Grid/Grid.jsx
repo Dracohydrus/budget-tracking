@@ -46,11 +46,9 @@ const Grid = forwardRef((props, ref) => {
           rowData={rowData}
           columnDefs={columnDefs}
           rowSelection="multiple"
-          cellSelection="none"
           sideBar={defaultSideBar}
           rowGroupPanelShow={'onlyWhenGrouping'}
           defaultColDef={defaultColDef}
-          rowClass={params => 'my-grid'}
           {...restProps}>
         </AgGridReact>
       </div >

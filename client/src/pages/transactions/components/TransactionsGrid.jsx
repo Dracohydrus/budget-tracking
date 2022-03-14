@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useState, forwardRef, useImperativeHandle, useRef, useCallback } from 'react';
 import { axiosInstance } from '../../../config';
 import { DeleteConfirmation } from '../../../components/basic/Popup';
 import DatePicker from '../../../components/basic/DatePicker';
@@ -7,6 +7,7 @@ import toast from '../../../utils/toast';
 
 const TransactionsGrid = ({ transactions, setTransactions, categories }) => {
     const gridRef = useRef()
+    const [rowData, setRowData] = useState([])
     const [columnDefs, setColumnDefs] = useState([
         {
             field: "email",
@@ -74,6 +75,8 @@ const TransactionsGrid = ({ transactions, setTransactions, categories }) => {
         axiosInstance.delete(`/transaction/${id}`)
             .then(res => {
                 setTransactions(transactions.filter((transaction) => transaction._id !== id))
+                const transactionRecord = transactions.find(transaction => transaction._id === id)
+                gridRef.current.api.applyTransaction({ remove: [transactionRecord] })
                 toast.success('Transaction Deleted');
             })
             .catch(err => toast.error('Unable to delete Transaction'))
@@ -99,21 +102,26 @@ const TransactionsGrid = ({ transactions, setTransactions, categories }) => {
         if (params?.column?.colId === 'delete') {
             DeleteConfirmation()
                 .then(() => onDelete(params?.data?._id))
+                .catch(err => console.log('Not Deleting'))
         }
     }
+
+    const onGridReady = useCallback(params => {
+        setColumnDefs(columnDefs)
+        setRowData(transactions)
+        let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
+        if (columnState) params.columnApi.applyColumnState({ state: columnState, applyOrder: true })
+    }, [columnDefs, transactions])
 
     return (
         <div style={{ flex: "9", height: 'calc(100vh - 50px)' }}>
             <Grid
                 ref={gridRef}
-                columnDefs={columnDefs} setColumnDefs={setColumnDefs}
-                rowData={transactions}
+                columnDefs={columnDefs}
+                rowData={rowData}
                 onCellClicked={onCellClicked}
                 onCellValueChanged={e => onCellUpdate(e.data._id, e.column.colId, e.newValue)}
-                onGridReady={params => {
-                    let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
-                    if (columnState) params.columnApi.applyColumnState({ state: columnState, applyOrder: true })
-                }}
+                onGridReady={onGridReady}
                 onDragStopped={params => {
                     let columnState = JSON.stringify(params.columnApi.getColumnState())
                     localStorage.setItem('transactionGridColumnState', columnState)
