@@ -1,6 +1,6 @@
 import { useState, forwardRef, useImperativeHandle, useRef, useCallback } from 'react';
 import { axiosInstance } from '../../../config';
-import { DeleteConfirmation } from '../../../components/basic/Popup';
+import { DeleteConfirmation } from '../../../components/basic/Dialog';
 import DatePicker from '../../../components/basic/DatePicker';
 import Grid from '../../../components/basic/Grid/Grid';
 import toast from '../../../utils/toast';

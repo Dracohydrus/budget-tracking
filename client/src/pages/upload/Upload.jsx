@@ -1,19 +1,23 @@
 import { useContext, useEffect, useState } from "react"
 import { Context } from '../../context/user/Context'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 import { axiosInstance } from "../../config"
-import { Button } from '../../components/basic/Button';
+import { Button } from '../../components/basic/Button'
 import toast from "../../utils/toast"
 import dateFormat from 'dateformat'
-import UploadComponent from "./components/uploader/Uploader"
-import Icon from '../../components/basic/Icon';
+import UploadComponent from "./components/Uploader"
+import Icon from '../../components/basic/Icon'
+import Popup from '../../components/basic/Popup'
+import UploadPopup from './components/UploadPopup'
 
 import { csvFileProcess } from './utils/csvHelper'
 
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [popupData, setPopupData] = useState([])
   const { user } = useContext(Context);
 
   useEffect(() => {
@@ -85,13 +89,25 @@ const Upload = () => {
   }
 
   const processFile = (string) => {
-    let newTransactions = csvFileProcess(string, user.currency, getLargest())
-    console.table(newTransactions)
-    setTransactions([...transactions, ...newTransactions])
+    let lines = string.split(/\n|\r\n|\r/gi)
+    let data = lines.length >= 5 ? lines.splice(0, 5) : lines
+    setPopupData(data)
+    setOpen(true)
+    // let array = lines[0].split(',')
+    // console.log(`Columns ${array.length}`)
+    // console.log('Preview Data')
+    // for (let i = 0; i < 5; i++) {
+    //   let newArray = lines[i].split(',')
+    //   console.log(newArray)
+    // }
+    // let newTransactions = csvFileProcess(string, user.currency, getLargest())
+    // console.table(newTransactions)
+    // setTransactions([...transactions, ...newTransactions])
   }
 
   return (
     <>
+      <UploadPopup open={open} setOpen={setOpen} popupData={popupData} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px' }}>
         {transactions.map((transaction) =>
           <UploadComponent key={transaction.key} transaction={transaction} categoryList={categoryList} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}

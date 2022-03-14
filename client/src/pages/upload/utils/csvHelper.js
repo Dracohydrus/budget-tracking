@@ -5,8 +5,8 @@ export const csvFileProcess = (fileText, currency = 'CAD', key = 1) => {
     var resultTransactions = []
     for (var line in fileLines) {
         let lineContent = fileLines[line].split(',')
-        const { date, description, credit, debit } = processTDDebit(lineContent)
-        // const { date, description, credit, debit } = processCryptoCredit(lineContent)
+        // const { date, description, credit, debit } = processTDDebit(lineContent)
+        const { date, description, credit, debit } = processCryptoCredit(lineContent)
         let transactionValue = credit && (Math.abs(Number(credit)) * -1)
         if (!transactionValue) transactionValue = debit && Number(debit)
         if (!transactionValue) continue
