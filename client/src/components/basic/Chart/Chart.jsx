@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { LineChart, XAxis, YAxis, CartesianGrid, Line } from 'recharts'
 import { axiosInstance } from '../../../config';
+import { Context } from "../../../context/user/Context";
 
 const Chart = () => {
     const [data, setData] = useState([])
-
+    const { user } = useContext(Context)
     useEffect(() => {
-        axiosInstance('/transaction')
+        axiosInstance(`/transaction?email=${user.email}`)
             .then(res => setData(res.data))
             .catch(err => console.log(err))
-    }, [])
-
-    console.log(data)
+    }, [user])
 
     return (
         <>
