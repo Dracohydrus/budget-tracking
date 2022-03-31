@@ -8,10 +8,7 @@ import toast from "../../utils/toast"
 import dateFormat from 'dateformat'
 import UploadComponent from "./components/Uploader"
 import Icon from '../../components/basic/Icon'
-import Popup from '../../components/basic/Popup'
 import UploadPopup from './components/UploadPopup'
-
-import { csvFileProcess } from './utils/csvHelper'
 
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);

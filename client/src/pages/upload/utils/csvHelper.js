@@ -22,15 +22,15 @@ export const csvFileProcess = (fileText, currency = 'CAD', key = 1) => {
     return resultTransactions;
 }
 
-function processTDDebit(csvLine) {
-    const [date, description, credit, debit] = csvLine
-    return { date, description, credit, debit }
-}
+// function processTDDebit(csvLine) {
+//     const [date, description, credit, debit] = csvLine
+//     return { date, description, credit, debit }
+// }
 
-function processTDCredit(csvLine) {
-    const [date, description, credit] = csvLine
-    return { date, description, credit }
-}
+// function processTDCredit(csvLine) {
+//     const [date, description, credit] = csvLine
+//     return { date, description, credit }
+// }
 
 function processCryptoCredit(csvLine) {
     const [date, description, , amount] = csvLine
