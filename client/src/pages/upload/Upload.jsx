@@ -10,11 +10,15 @@ import UploadComponent from "./components/Uploader"
 import Icon from '../../components/basic/Icon'
 import UploadPopup from './components/UploadPopup'
 
+import { csvFileProcess } from './utils/csvHelper'
+
 const Upload = () => {
   const [transactions, setTransactions] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [open, setOpen] = useState(false)
   const [popupData, setPopupData] = useState([])
+  const [pickerValue, setPickerValue] = useState([])
+  const [fileContent, setFileContent] = useState(null)
   const { user } = useContext(Context);
 
   useEffect(() => {
@@ -77,34 +81,45 @@ const Upload = () => {
   }
 
   const uploadFile = (e) => {
-    var fileToRead = e.target.files[0];
-    var fileReader = new FileReader();
+    var fileToRead = e.target.files[0]
+    var fileReader = new FileReader()
     fileReader.onload = (fileLoadedEvent) => {
       processFile(fileLoadedEvent.target.result)
     }
     fileReader.readAsText(fileToRead, "UTF-8")
+    e.target.value = null
   }
 
   const processFile = (string) => {
     let lines = string.split(/\n|\r\n|\r/gi)
     let data = lines.length >= 5 ? lines.splice(0, 5) : lines
+    setFileContent(string)
+    setPickerValue([])
     setPopupData(data)
     setOpen(true)
-    // let array = lines[0].split(',')
-    // console.log(`Columns ${array.length}`)
-    // console.log('Preview Data')
-    // for (let i = 0; i < 5; i++) {
-    //   let newArray = lines[i].split(',')
-    //   console.log(newArray)
-    // }
-    // let newTransactions = csvFileProcess(string, user.currency, getLargest())
-    // console.table(newTransactions)
-    // setTransactions([...transactions, ...newTransactions])
+  }
+
+  const updatePickerValues = (newValue, index) => {
+    if (pickerValue.filter(data => data.index === index).length > 0) {
+      setPickerValue(pickerValue.map(data => {
+        if (data.index === index) data.value = newValue
+        return data
+      }))
+      return [{ index: index, value: newValue }]
+    }
+    setPickerValue([...pickerValue, { index: index, value: newValue }])
+  }
+
+  const onSubmit = e => {
+    e.preventDefault();
+    let newTransactions = csvFileProcess(fileContent, user.currency, getLargest(), pickerValue)
+    setTransactions([...transactions, ...newTransactions])
+    setOpen(false)
   }
 
   return (
     <>
-      <UploadPopup open={open} setOpen={setOpen} popupData={popupData} />
+      <UploadPopup open={open} close={() => setOpen(false)} popupData={popupData} updatePickerValues={updatePickerValues} onSubmit={onSubmit} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '5px' }}>
         {transactions.map((transaction) =>
           <UploadComponent key={transaction.key} transaction={transaction} categoryList={categoryList} onDelete={deleteUploadTransaction} onUpdate={updateUploadTransaction} />)}
@@ -113,7 +128,7 @@ const Upload = () => {
         <UploadLabel htmlFor='transactionFileUpload' className='uploadButton'>
           <Icon className="fa-solid fa-upload" />
         </UploadLabel>
-        <input id='transactionFileUpload' type="file" style={{ display: 'none' }} onChange={uploadFile} />
+        <input id='transactionFileUpload' type="file" accept=".csv" style={{ display: 'none' }} onChange={uploadFile} />
         <UploadButton id='saveButton' onClick={() => saveTransactions()}>
           <Icon className="fa-solid fa-floppy-disk" />
         </UploadButton>

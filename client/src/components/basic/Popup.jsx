@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import 'reactjs-popup/dist/index.css';
 import './Popup.css'
 
-const Popup = ({ open, setOpen, ...props }) => {
-    const closeModal = () => setOpen(false)
-
+const Popup = ({ open, close, ...props }) => {
     return (
-        <ReactPopup modal open={open} onClose={closeModal} {...props} />
+        <ReactPopup modal open={open} onClose={close} {...props} />
     )
 }
 
 Popup.propTypes = {
     open: PropTypes.bool.isRequired,
-    setOpen: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
 }
 
 export default Popup
