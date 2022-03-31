@@ -62,8 +62,8 @@ const TransactionsGrid = ({ transactions, setTransactions, categories }) => {
         },
         {
             field: "delete",
-            cellClass: "fa fa-trash",
-            headerClass: "fa fa-trash",
+            cellClass: ["fa", "fa-trash"],
+            headerClass: ["fa", "fa-trash"],
             cellStyle: { cursor: "pointer" },
             width: 50,
             headerName: ''
