@@ -1,11 +1,10 @@
 .sidebar {
-  margin: 10px;
-  padding-bottom: 30px;
   background-color: #f0eeee;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 }
 
 .sidebarItem {

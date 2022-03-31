@@ -1,24 +1,14 @@
-import { useEffect, useMemo, useState, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle, useRef, useCallback } from 'react';
 import { axiosInstance } from '../../../config';
+import { DeleteConfirmation } from '../../../components/basic/Dialog';
 import DatePicker from '../../../components/basic/DatePicker';
 import Grid from '../../../components/basic/Grid/Grid';
 import toast from '../../../utils/toast';
 
-const TransactionsGrid = ({ transactions, setTransactions }) => {
-    const [categories, setCategories] = useState([])
-
-    useEffect(() => {
-        let isMounted = true
-        const fetchCategories = async () => {
-            axiosInstance.get('/category')
-                .then(res => isMounted && setCategories(res.data))
-                .catch(err => console.log(err))
-        }
-        fetchCategories();
-        return () => isMounted = false
-    }, [])
-
-    const columnDefs = useMemo(() => ([
+const TransactionsGrid = ({ transactions, setTransactions, categories }) => {
+    const gridRef = useRef()
+    const [rowData, setRowData] = useState([])
+    const [columnDefs, setColumnDefs] = useState([
         {
             field: "email",
             hide: true
@@ -38,6 +28,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         {
             field: "currency",
             editable: true,
+            hide: true,
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
                 values: ['CAD', 'USD']
@@ -46,6 +37,7 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
         {
             field: "transactionDate",
             editable: true,
+            filter: 'agDateColumnFilter',
             sort: 'desc',
             sortingOrder: ['desc', 'asc'],
             cellEditor: MyDatePicker,
@@ -58,14 +50,14 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             editable: true,
             valueGetter: params => params?.data?.categories?.map(cat => cat.name).join(', ') || params.data.categories,
             valueSetter: params => {
-                let newCategory = categories.find(category => category.name === params.newValue) || null
+                let newCategory = categories.find(category => category.name === params.newValue) || []
                 params.data.categories = [newCategory]
                 params.newValue = [newCategory]
                 return true
             },
             cellEditor: 'agSelectCellEditor',
             cellEditorParams: {
-                values: ['', ...categories.map(x => x.name)],
+                values: ['', ...categories.map(cat => cat.name)],
             }
         },
         {
@@ -76,13 +68,15 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             width: 50,
             headerName: ''
         }
-    ]), [categories])
+    ])
 
     const onDelete = async (id) => {
         if (!id) return;
         axiosInstance.delete(`/transaction/${id}`)
             .then(res => {
                 setTransactions(transactions.filter((transaction) => transaction._id !== id))
+                const transactionRecord = transactions.find(transaction => transaction._id === id)
+                gridRef.current.api.applyTransaction({ remove: [transactionRecord] })
                 toast.success('Transaction Deleted');
             })
             .catch(err => toast.error('Unable to delete Transaction'))
@@ -104,22 +98,46 @@ const TransactionsGrid = ({ transactions, setTransactions }) => {
             .catch(err => toast.error('Unable to update Transaction'))
     }
 
-    const onGridReady = e => {
-        e.api.sizeColumnsToFit();
+    const onCellClicked = params => {
+        if (params?.column?.colId === 'delete') {
+            DeleteConfirmation()
+                .then(() => onDelete(params?.data?._id))
+                .catch(err => console.log('Not Deleting'))
+        }
     }
 
-    const onCellClicked = e => {
-        if (e?.column?.colId === 'delete') onDelete(e?.data?._id)
-    }
+    const onGridReady = useCallback(params => {
+        setColumnDefs(columnDefs)
+        setRowData(transactions)
+        let columnState = JSON.parse(localStorage.getItem('transactionGridColumnState'))
+        if (columnState) params.columnApi.applyColumnState({ state: columnState, applyOrder: true })
+    }, [columnDefs, transactions])
 
     return (
         <div style={{ flex: "9", height: 'calc(100vh - 50px)' }}>
             <Grid
+                ref={gridRef}
                 columnDefs={columnDefs}
-                rowData={transactions}
-                onGridReady={onGridReady}
+                rowData={rowData}
                 onCellClicked={onCellClicked}
                 onCellValueChanged={e => onCellUpdate(e.data._id, e.column.colId, e.newValue)}
+                onGridReady={onGridReady}
+                onDragStopped={params => {
+                    let columnState = JSON.stringify(params.columnApi.getColumnState())
+                    localStorage.setItem('transactionGridColumnState', columnState)
+                }}
+                onFilterChanged={params => {
+                    let filterModel = JSON.stringify(params.api.getFilterModel())
+                    localStorage.setItem('transactionGridFilterModel', filterModel)
+                }}
+                onFirstDataRendered={params => {
+                    let filterModel = JSON.parse(localStorage.getItem('transactionGridFilterModel'))
+                    if (filterModel) params.api.setFilterModel(filterModel)
+                }}
+                onRowDataChanged={params => {
+                    let filterModel = JSON.parse(localStorage.getItem('transactionGridFilterModel'))
+                    if (filterModel) params.api.setFilterModel(filterModel)
+                }}
             />
         </div>
     )
@@ -141,9 +159,7 @@ const MyDatePicker = forwardRef((props, ref) => {
     return <DatePicker
         portalId="root"
         selected={date}
-        onChange={date => {
-            setDate(date)
-        }}
+        onChange={date => setDate(date)}
     />
 })
 
