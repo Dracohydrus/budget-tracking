@@ -11,7 +11,7 @@
     "axios": "^0.24.0",
     "classnames": "^2.3.1",
     "dateformat": "^5.0.3",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "react": "^17.0.2",
     "react-confirm-alert": "^2.8.0",
     "react-datepicker": "^4.7.0",
